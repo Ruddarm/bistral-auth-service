@@ -3,6 +3,7 @@ package com.bistral.app.bistral_auth_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -42,6 +43,7 @@ public class RoleEntity {
     @Column(name = "bistro_id",nullable = false)
     private UUID bistroId;
 
+    @CreationTimestamp
     @Column(name = "created_at",nullable = false)
     private LocalDateTime createdAt;
 
@@ -55,5 +57,15 @@ public class RoleEntity {
     @ManyToOne
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
+
+    @Override
+    public String toString() {
+        return "role Name %s , role_id %s , createdAt %s , createdBy %s "
+                .formatted(this.roleName
+                    ,this.getUserRoleId()==null?null:this.getUserRoleId().toString(),
+                        this.createdAt==null?null:this.createdAt,
+                        this.createdBy==null?null:this.createdBy
+                );
+    }
 }
 

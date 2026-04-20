@@ -4,6 +4,7 @@ import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import org.hibernate.query.Page;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface RoleCrudService {
      * @param roleRequestDto represent high level abstraction of {@link  RoleRequestDto}
      * @return {@link RoleResponseDto} Only required field from {@link com.bistral.app.bistral_auth_service.entity.RoleEntity}
      */
-    RoleResponseDto createRole(RoleRequestDto roleRequestDto);
+    RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException;
 
     /**
      * Get role by role id of bistro , but <code>user</code> have right  to access role.

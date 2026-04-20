@@ -18,7 +18,7 @@ public class WebConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) ->
                         auth
-                                .requestMatchers("/auth/**").permitAll().anyRequest()
+                                .requestMatchers("/**").permitAll().anyRequest()
                                 .authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
