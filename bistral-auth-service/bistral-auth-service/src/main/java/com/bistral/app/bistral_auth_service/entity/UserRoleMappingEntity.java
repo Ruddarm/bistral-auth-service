@@ -2,10 +2,9 @@ package com.bistral.app.bistral_auth_service.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.management.relation.Role;
 import java.time.LocalDateTime;
@@ -18,6 +17,15 @@ import java.util.UUID;
  *     Each user must have assign one role only once , but user can have
  *     multiple roles in one or different bistros.
  * </note>
+ * <p>
+ * <Code>Fields Information</code>
+ * <p>
+ *     <code>UserId</code>
+ *     <ul>
+ *         <li>Represent user whom role is assigned</li>
+ *     </ul>
+ * </p>
+ * </p>
  */
 @Entity
 @Table
@@ -35,6 +43,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class UserRoleMappingEntity {
 
     @Id
@@ -46,7 +57,7 @@ public class UserRoleMappingEntity {
     @JoinColumn(name = "role_id", nullable = false)
     private RoleEntity role;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id" , nullable = false)
     private UserEntity user;
 
@@ -64,6 +75,7 @@ public class UserRoleMappingEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 

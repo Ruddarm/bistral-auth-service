@@ -14,3 +14,4 @@ public class UserRoleResponseDto {
     private UUID roleId;
     private UUID branchId;
 }
+

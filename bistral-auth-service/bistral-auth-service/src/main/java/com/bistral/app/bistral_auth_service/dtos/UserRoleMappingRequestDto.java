@@ -1,6 +1,8 @@
 package com.bistral.app.bistral_auth_service.dtos;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,13 +13,14 @@ import java.util.UUID;
 @Builder
 public class UserRoleMappingRequestDto {
 
-    @NotBlank
-    private UUID roleId;
-    @NotBlank
+
+    @NotNull
     private UUID userId;
-    @NotBlank
+    @NotNull
     private UUID bistroId;
 
+    @NotNull
+    @NotEmpty
     private List<RoleAssignmentDto> roleAssignmentDtoList;
 
 }

@@ -1,11 +1,20 @@
 package com.bistral.app.bistral_auth_service.dtos;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.management.relation.Role;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRoleMappingResponseDto {
 
-
-    Map<UUID, RoleAssignmentDto> roleAssignmentDtoMap;
+    Map<UUID, Map<UUID, List<RoleResponseDto>>> roleAssignmentDtoMap;
 }

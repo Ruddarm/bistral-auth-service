@@ -44,6 +44,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleOtherExceptions(Exception exception) {
+        exception.printStackTrace();
         return ResponseEntity.
                 internalServerError().body(
                         ApiResponse.<Void>builder()

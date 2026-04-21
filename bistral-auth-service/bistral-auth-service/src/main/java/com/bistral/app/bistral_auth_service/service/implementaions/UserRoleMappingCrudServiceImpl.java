@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
+import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
 import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingResponseDto;
 import com.bistral.app.bistral_auth_service.entity.RoleEntity;
@@ -15,9 +16,7 @@ import org.apache.commons.text.translate.UnicodeUnescaper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -32,21 +31,45 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
     public Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto) {
         UUID userId = roleMappingRequestDto.getUserId();
         UserEntity user = UserEntity.builder()
-                                .userId(userId)
-                                    .build();
+                .userId(userId)
+                .build();
         UUID bistroId = roleMappingRequestDto.getBistroId();
-        List<UserRoleMappingEntity> roleMappingEntities  =
+        List<UserRoleMappingEntity> roleMappingEntities =
                 roleMappingRequestDto.getRoleAssignmentDtoList()
-                        .stream().map((assignRole)->{
-                            return  UserRoleMappingEntity.builder()
+                        .stream().map((assignRole) -> {
+                            return UserRoleMappingEntity.builder()
                                     .user(user)
                                     .bistro_id(bistroId)
+                                    .createdBy(user)
                                     .role(RoleEntity.builder()
                                             .userRoleId(assignRole.getRoleId()).build())
                                     .branch_id(assignRole.getBranchId())
                                     .build();
-                            }).toList();
+                        }).toList();
         userRoleMappingRepository.saveAll(roleMappingEntities);
         return Boolean.TRUE;
     }
+
+    @Override
+    public UserRoleMappingResponseDto getRolesOfUser(UUID userId) {
+        List<UserRoleMappingEntity> roleMappingEntities =
+                userRoleMappingRepository.findRolesOfUserByUserId(userId);
+        Map<UUID, Map<UUID, List<RoleResponseDto>>> roleMap = new HashMap<>();
+        roleMappingEntities
+                .forEach((roleMapping) -> {
+                    roleMap.putIfAbsent(roleMapping.getBistro_id(), new HashMap<>());
+                    roleMap.get(roleMapping.getBistro_id())
+                            .computeIfAbsent(roleMapping.getBranch_id(), k->new ArrayList<>()).add(
+                            RoleResponseDto.builder()
+                                    .userRoleId(roleMapping.getRole().getUserRoleId())
+                                    .roleName(roleMapping.getRole().getRoleName())
+                                    .build()
+                    );
+                });
+        return
+                UserRoleMappingResponseDto.builder()
+                        .roleAssignmentDtoMap(roleMap).build();
+    }
+
+
 }
