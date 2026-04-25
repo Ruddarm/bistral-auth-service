@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
+import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
@@ -24,6 +25,8 @@ public class RoleCrudServiceImpl implements RoleCrudService {
     private final RoleMapper roleMapper;
 
     private UserCrudServiceImpl userCrudService;
+
+
 
     @Override
     public RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException {

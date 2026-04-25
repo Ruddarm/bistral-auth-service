@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
+import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
 import io.jsonwebtoken.Claims;
@@ -7,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -18,10 +20,7 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Implementation of JwtService responsible for JWT generation and key management.
@@ -109,13 +108,26 @@ public class JwtServiceImpl implements JwtService {
      * @return signed JWT access token
      */
     @Override
-    public String getAccessToken(UserEntity user) throws Exception {
+    public String getAccessToken(UserEntity user, LoginContext loginContext) throws Exception {
+        Objects.requireNonNull(loginContext,"login Context Cant not be null");
         return
                 Jwts
                         .builder()
                         .subject(user.getUserId().toString())
                         .claim("userName", user.getUsername())
                         .claim("userType", user.getUserTypeEnum())
+                        .claim("bistroId", Optional.ofNullable(loginContext
+                                .getBistroId())
+                                .map(UUID::toString)
+                                .orElse(null))
+                        .claim("branchId",
+                                Optional.ofNullable(loginContext.getBranchId())
+                                        .map(UUID::toString)
+                                        .orElse(null))
+                        .claim("Permissions",Optional
+                                .ofNullable(loginContext.getPermission())
+                                .orElse(List.of())
+                        )
                         .signWith(this.privateKey)
                         .compact();
 

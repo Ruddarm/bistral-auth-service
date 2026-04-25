@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
+import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,7 @@ public interface JwtService {
      * @param user the authenticated user
      * @return JWT access token
      */
-    public String getAccessToken(UserEntity user) throws Exception;
+    public String getAccessToken(UserEntity user, LoginContext loginContext) throws Exception;
 
     /**
      * Generates a long-lived refresh token for the given user.

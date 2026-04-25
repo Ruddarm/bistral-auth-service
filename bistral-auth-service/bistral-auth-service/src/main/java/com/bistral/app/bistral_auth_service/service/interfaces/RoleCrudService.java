@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
+import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
@@ -20,6 +21,7 @@ public interface RoleCrudService {
      * @param roleRequestDto represent high level abstraction of {@link  RoleRequestDto}
      * @return {@link RoleResponseDto} Only required field from {@link com.bistral.app.bistral_auth_service.entity.RoleEntity}
      */
+    @HasPermission("ROLE:CREATE")
     RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException;
 
     /**
@@ -27,6 +29,7 @@ public interface RoleCrudService {
      * @param roleId
      * @return
      */
+    @HasPermission("ROLE:VIEW")
     RoleResponseDto getRoleById(UUID roleId);
 
     /**
@@ -46,6 +49,7 @@ public interface RoleCrudService {
      * @param size number of records per page (optional, default = all)
      * @return paginated list of roles matching the filter criteria
      */
+    @HasPermission("ROLE:VIEW")
     PageResponse<RoleResponseDto> getListOfRoles(RoleFilterRequest filterRequest , Integer page , Integer size);
 
 

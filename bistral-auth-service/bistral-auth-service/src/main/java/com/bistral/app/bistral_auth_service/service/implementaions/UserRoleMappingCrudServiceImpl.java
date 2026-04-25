@@ -59,16 +59,22 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
                 .forEach((roleMapping) -> {
                     roleMap.putIfAbsent(roleMapping.getBistro_id(), new HashMap<>());
                     roleMap.get(roleMapping.getBistro_id())
-                            .computeIfAbsent(roleMapping.getBranch_id(), k->new ArrayList<>()).add(
-                            RoleResponseDto.builder()
-                                    .userRoleId(roleMapping.getRole().getUserRoleId())
-                                    .roleName(roleMapping.getRole().getRoleName())
-                                    .build()
-                    );
+                            .computeIfAbsent(roleMapping.getBranch_id(), k -> new ArrayList<>()).add(
+                                    RoleResponseDto.builder()
+                                            .userRoleId(roleMapping.getRole().getUserRoleId())
+                                            .roleName(roleMapping.getRole().getRoleName())
+                                            .build()
+                            );
                 });
         return
                 UserRoleMappingResponseDto.builder()
                         .roleAssignmentDtoMap(roleMap).build();
+    }
+
+    @Override
+    public List<String> getListOfPermissionForUser(UUID userId, UUID bistroId, UUID branchId, UUID roleId) {
+        return userRoleMappingRepository
+                .findPermissionByContext(userId, bistroId, branchId, roleId);
     }
 
 

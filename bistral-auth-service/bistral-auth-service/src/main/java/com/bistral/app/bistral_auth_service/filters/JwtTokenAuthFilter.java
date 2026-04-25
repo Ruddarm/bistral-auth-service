@@ -41,7 +41,7 @@
 //                return;
 //            }
 //            String jwtToken = token.split("Bearer ")[1];
-//            java.util.UUID userid = jwtService.getUserId(token);
+//            java.util.UUID userid = jwtService.getAuthContext(token);
 //            UserEntity user = userCrudService.getUserById(userid);
 //            if (SecurityContextHolder.getContext() == null) {
 //                jwtService.isTokenValid(token, user);

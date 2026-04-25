@@ -1,10 +1,13 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
+import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.AuthResponse;
+import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
 import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
+import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +25,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserRoleMappingCrudServiceImpl userRoleMappingCrudService;
+    private final UserCrudService userCrudService;
 
     /**
      * Authenticates user credentials and returns JWT tokens.
@@ -37,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(user))
+                        .accessToken(jwtService.getAccessToken(user,new LoginContext()))
                         .refreshToken(jwtService.getRefreshToken(user))
                         .user(user)
                         .expireIn(10000L)
@@ -53,5 +58,24 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse refreshToken(String refreshToken) {
         return null;
+    }
+
+    @Override
+    public AuthResponse switchLoginContext(LoginContext loginContext) throws Exception {
+
+        UserEntity userEntity = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
+        loginContext.setPermission(
+                userRoleMappingCrudService.getListOfPermissionForUser(UserContextHolder.getAuthContext().getUserId(),
+                        loginContext.getBistroId(),loginContext.getBranchId(),
+                        loginContext.getRoleId())
+        );
+
+        return
+                AuthResponse.builder()
+                        .accessToken(jwtService.getAccessToken(userEntity,loginContext))
+                        .user(userEntity)
+                        .expireIn(10000L)
+                        .build();
+
     }
 }

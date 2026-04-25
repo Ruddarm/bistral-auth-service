@@ -1,7 +1,9 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
 import com.bistral.app.bistral_auth_service.dtos.AuthResponse;
+import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
+import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -29,5 +31,11 @@ public interface AuthService {
      */
     public AuthResponse refreshToken(String AccessToken);
 
+    /**
+     *
+     * @param loginContext
+     * @return
+     */
+    public AuthResponse switchLoginContext(LoginContext loginContext) throws Exception;
 
 }

@@ -1,6 +1,7 @@
 package com.bistral.app.bistral_auth_service.controllers;
 
 
+import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.ApiResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class UserRoleController {
 
     private final RoleCrudService roleCrudService;
+
 
 
     @PostMapping("")
