@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -15,5 +16,5 @@ public class RoleResponseDto {
 
     private UUID userRoleId;
     private String roleName;
-
+    private List<RolePermissionResponseDto> rolePermissionResponses;
 }

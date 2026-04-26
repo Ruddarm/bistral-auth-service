@@ -14,13 +14,8 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class RoleRequestDto {
-
     @NotNull
     @NotBlank
     private String roleName;
-
-    @NotNull
-    private UUID bistroId;
-
 
 }

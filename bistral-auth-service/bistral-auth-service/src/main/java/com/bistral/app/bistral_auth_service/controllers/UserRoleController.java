@@ -6,6 +6,7 @@ import com.bistral.app.bistral_auth_service.dtos.ApiResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
+import com.bistral.app.bistral_auth_service.mapper.RoleMapper;
 import com.bistral.app.bistral_auth_service.service.interfaces.RoleCrudService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,12 +20,11 @@ import java.util.UUID;
 public class UserRoleController {
 
     private final RoleCrudService roleCrudService;
-
-
+    private final RoleMapper roleMapper;
 
     @PostMapping("")
     public ApiResponse<RoleResponseDto> createRole(@Valid @RequestBody RoleRequestDto roleRequestDto) throws UserNotFoundException {
-        return  ApiResponse.<RoleResponseDto>builder()
+        return ApiResponse.<RoleResponseDto>builder()
                 .isError(false)
                 .message("Role Created Successfully")
                 .data(roleCrudService.createRole(roleRequestDto))
@@ -33,14 +33,15 @@ public class UserRoleController {
 
     @GetMapping("/{roleId}")
     public ApiResponse<RoleResponseDto> getRoleById(@PathVariable UUID roleId) {
-        return  ApiResponse.<RoleResponseDto>builder()
-                .data(roleCrudService.getRoleById(roleId))
+        return ApiResponse.<RoleResponseDto>builder()
+                .data(roleMapper
+                        .toRoleResponseWithPermission(roleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)))
                 .message("Role found")
                 .build();
     }
 
     @GetMapping("/bistro/{bistroId}")
-    public ApiResponse<RoleResponseDto> getRoleByBistroId(){
+    public ApiResponse<RoleResponseDto> getRoleByBistroId() {
         return null;
     }
 

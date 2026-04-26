@@ -1,11 +1,14 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
 import com.bistral.app.bistral_auth_service.annotation.HasPermission;
+import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.entity.RoleEntity;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
+import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
 import org.hibernate.query.Page;
 
 import java.util.List;
@@ -30,7 +33,7 @@ public interface RoleCrudService {
      * @return
      */
     @HasPermission("ROLE:VIEW")
-    RoleResponseDto getRoleById(UUID roleId);
+    RoleEntity getRoleByIdAndBistroId(UUID roleId);
 
     /**
      * Get list of roles based on given filter criteria.
@@ -53,4 +56,10 @@ public interface RoleCrudService {
     PageResponse<RoleResponseDto> getListOfRoles(RoleFilterRequest filterRequest , Integer page , Integer size);
 
 
+    /**
+     *
+     * @param roleId
+     * @return
+     */
+    List<RolePermissionProjection> getRoleByRoleIdBistroIdWithPermission(UUID roleId);
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -57,6 +58,9 @@ public class RoleEntity {
     @ManyToOne
     @JoinColumn(name = "updated_by")
     private UserEntity updatedBy;
+
+    @OneToMany(mappedBy = "role")
+    private List<RolePermissionEntity> rolePermissions;
 
     @Override
     public String toString() {
