@@ -17,7 +17,6 @@ public class RolePermissionRequestDto {
     UUID resourceId;
     @NotNull
     UUID actionId;
-
     @NotNull
     Boolean isAllowed;
 }

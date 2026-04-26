@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/roles")
 public class UserRoleController {
 
     private final RoleCrudService roleCrudService;
