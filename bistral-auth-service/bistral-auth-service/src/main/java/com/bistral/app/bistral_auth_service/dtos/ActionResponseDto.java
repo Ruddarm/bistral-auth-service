@@ -1,17 +1,17 @@
 package com.bistral.app.bistral_auth_service.dtos;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.util.UUID;
+
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActionRequestDto {
-
-    @NotNull
+public class ActionResponseDto {
+    private UUID actionId;
     private String actionName;
 }

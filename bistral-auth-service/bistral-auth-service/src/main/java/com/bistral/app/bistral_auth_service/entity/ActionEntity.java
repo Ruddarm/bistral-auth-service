@@ -1,10 +1,7 @@
 package com.bistral.app.bistral_auth_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -15,7 +12,7 @@ import java.util.UUID;
  * A Action Need to be unique through applications.
  */
 @Entity
-@Table(name = "action_entity",
+@Table(name = "actions",
         uniqueConstraints = {
         @UniqueConstraint(
                 name = "unique_action_name",
@@ -27,6 +24,7 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
 public class ActionEntity {
 
     @Id
@@ -35,7 +33,7 @@ public class ActionEntity {
     private UUID actionId;
 
     @Column(name = "action_name", nullable = false)
-    private UUID actionName;
+    private String actionName;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", nullable = false)

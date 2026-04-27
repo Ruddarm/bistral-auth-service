@@ -21,6 +21,7 @@ public interface AuthService {
      * @param request contains username and password
      * @return authentication response with JWT tokens
      */
+
     public AuthResponse authenticate(UserLoginRequest userLoginRequest) throws Exception;
 
     /**

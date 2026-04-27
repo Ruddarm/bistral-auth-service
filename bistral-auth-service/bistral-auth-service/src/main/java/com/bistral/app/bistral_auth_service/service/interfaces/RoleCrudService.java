@@ -61,5 +61,6 @@ public interface RoleCrudService {
      * @param roleId
      * @return
      */
+    @HasPermission("ROLE:VIEW")
     List<RolePermissionProjection> getRoleByRoleIdBistroIdWithPermission(UUID roleId);
 }

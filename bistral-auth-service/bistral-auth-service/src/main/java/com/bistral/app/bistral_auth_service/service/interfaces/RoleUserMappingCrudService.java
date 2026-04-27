@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
+import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingResponseDto;
 
@@ -11,10 +12,12 @@ import java.util.UUID;
  */
 public interface RoleUserMappingCrudService {
 
-     Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto);
+    @HasPermission("ROLE:VIEW")
+    Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto);
 
-     UserRoleMappingResponseDto getRolesOfUser(UUID userId);
+    @HasPermission("ROLE:VIEW")
+    UserRoleMappingResponseDto getRolesOfUser(UUID userId);
 
-
-     List<String> getListOfPermissionForUser(UUID userId, UUID bistroId, UUID branchId,UUID roleId);
+    @HasPermission("ROLE:VIEW")
+    List<String> getListOfPermissionForUser(UUID userId, UUID bistroId, UUID branchId, UUID roleId);
 }

@@ -31,6 +31,7 @@ public class RoleCrudServiceImpl implements RoleCrudService {
     private UserCrudServiceImpl userCrudService;
 
 
+
     @Override
     public RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException {
         RoleEntity roleEntity = roleMapper.toRoleEntity(roleRequestDto);
