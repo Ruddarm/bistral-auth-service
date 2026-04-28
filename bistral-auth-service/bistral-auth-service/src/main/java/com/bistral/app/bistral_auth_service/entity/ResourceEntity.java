@@ -42,7 +42,7 @@ public class ResourceEntity {
     @GeneratedValue( strategy = GenerationType.UUID)
     @Column(name = "resource_id")
     private UUID resourceId;
-    @Column(name = "resource_name")
+    @Column(name = "resource_name",nullable = false)
     private String resourceName;
 
     @ManyToOne

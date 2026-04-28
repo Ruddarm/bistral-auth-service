@@ -35,15 +35,15 @@ public class RolePermissionEntity {
     @Column(name = "role_permission_id")
     private UUID rolePermissionId;
 
-    @JoinColumn(name = "user_role_id")
+    @JoinColumn(name = "user_role_id",nullable = false)
     @ManyToOne
     private RoleEntity role;
 
-    @JoinColumn(name = "resource_id")
+    @JoinColumn(name = "resource_id",nullable = false)
     @ManyToOne
     private ResourceEntity resource;
 
-    @JoinColumn(name = "action_id")
+    @JoinColumn(name = "action_id",nullable = false)
     @ManyToOne
     private ActionEntity actionEntity;
 
