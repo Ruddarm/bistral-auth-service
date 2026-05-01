@@ -62,10 +62,10 @@ public class UserRoleMappingEntity {
     private UserEntity user;
 
     @Column(name = "bistro_id", nullable = false)
-    private UUID bistro_id;
+    private UUID bistroId;
 
     @Column(name = "branch_id", nullable = false)
-    private  UUID branch_id;
+    private  UUID branchId;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)

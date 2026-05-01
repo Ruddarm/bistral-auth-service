@@ -1,11 +1,10 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
-import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.UserRoleMappingResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.*;
 import com.bistral.app.bistral_auth_service.entity.RoleEntity;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
 import com.bistral.app.bistral_auth_service.entity.UserRoleMappingEntity;
+import com.bistral.app.bistral_auth_service.openfeignclients.BistroFeignClient;
 import com.bistral.app.bistral_auth_service.repository.RoleRepository;
 import com.bistral.app.bistral_auth_service.repository.UserRepository;
 import com.bistral.app.bistral_auth_service.repository.UserRoleMappingRepository;
@@ -17,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +27,7 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
     private final UserRoleMappingRepository userRoleMappingRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final BistroFeignClient bistroFeignClient;
 
     @Override
     public Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto) {
@@ -39,11 +41,11 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
                         .stream().map((assignRole) -> {
                             return UserRoleMappingEntity.builder()
                                     .user(user)
-                                    .bistro_id(bistroId)
+                                    .bistroId(bistroId)
                                     .createdBy(user)
                                     .role(RoleEntity.builder()
                                             .userRoleId(assignRole.getRoleId()).build())
-                                    .branch_id(assignRole.getBranchId())
+                                    .branchId(assignRole.getBranchId())
                                     .build();
                         }).toList();
         userRoleMappingRepository.saveAll(roleMappingEntities);
@@ -51,24 +53,46 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
     }
 
     @Override
-    public UserRoleMappingResponseDto getRolesOfUser(UUID userId) {
+    public Map<UUID, BistroContextDto> getRolesOfUser(UUID userId) {
         List<UserRoleMappingEntity> roleMappingEntities =
                 userRoleMappingRepository.findRolesOfUserByUserId(userId);
         Map<UUID, Map<UUID, List<RoleResponseDto>>> roleMap = new HashMap<>();
+        Set<UUID> bistroIds = new HashSet<>();
+        Set<UUID> branchIds = new HashSet<>();
+        roleMappingEntities.forEach(roleMapping -> {
+            bistroIds.add(roleMapping.getBistroId());
+            branchIds.add(roleMapping.getBranchId());
+        });
+        List<BistroContextDto> bistroContext =
+                bistroFeignClient
+                        .getBistroContext(BistroContextRequestDto
+                                .builder().bistroIds(bistroIds.stream().toList())
+                                .branchIds(branchIds.stream().toList()).build());
+        Map<UUID, BistroContextDto> bistroContextDtoMap = bistroContext.stream()
+                .collect(Collectors.toMap(
+                        BistroContextDto::getBistroId,
+                        bistro -> bistro
+                ));
+
         roleMappingEntities
                 .forEach((roleMapping) -> {
-                    roleMap.putIfAbsent(roleMapping.getBistro_id(), new HashMap<>());
-                    roleMap.get(roleMapping.getBistro_id())
-                            .computeIfAbsent(roleMapping.getBranch_id(), k -> new ArrayList<>()).add(
-                                    RoleResponseDto.builder()
+                    if (bistroContextDtoMap.containsKey(roleMapping.getBistroId())) {
+                        BistroContextDto bistroContextDto = bistroContextDtoMap.get(roleMapping.getBistroId());
+                        if (bistroContextDto != null) {
+                            BranchContextDto branchContextDto = bistroContextDto.getBranchContextDtoMap().get(roleMapping.getBranchId());
+                            if (branchContextDto.getRoleResponseDtoList() == null) {
+                                branchContextDto.setRoleResponseDtoList(new ArrayList<>());
+                            }
+                            branchContextDto.getRoleResponseDtoList()
+                                    .add(RoleResponseDto
+                                            .builder()
                                             .userRoleId(roleMapping.getRole().getUserRoleId())
                                             .roleName(roleMapping.getRole().getRoleName())
-                                            .build()
-                            );
+                                            .build());
+                        }
+                    }
                 });
-        return
-                UserRoleMappingResponseDto.builder()
-                        .roleAssignmentDtoMap(roleMap).build();
+        return bistroContextDtoMap;
     }
 
     @Override
