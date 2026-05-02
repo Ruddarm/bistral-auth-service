@@ -53,7 +53,7 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
     }
 
     @Override
-    public Map<UUID, BistroContextDto> getRolesOfUser(UUID userId) {
+    public List<BistroContextDto> getRolesOfUser(UUID userId) {
         List<UserRoleMappingEntity> roleMappingEntities =
                 userRoleMappingRepository.findRolesOfUserByUserId(userId);
         Map<UUID, Map<UUID, List<RoleResponseDto>>> roleMap = new HashMap<>();
@@ -73,17 +73,25 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
                         BistroContextDto::getBistroId,
                         bistro -> bistro
                 ));
+        Map<UUID, BranchContextDto> branchContextDtoMap = new HashMap<>();
+        bistroContext.forEach((bistro) ->
+                bistro.getBranches()
+                        .forEach((branch) ->
+                                branchContextDtoMap.putIfAbsent(branch.getBranchId(), branch)
+                        )
+
+        );
 
         roleMappingEntities
                 .forEach((roleMapping) -> {
                     if (bistroContextDtoMap.containsKey(roleMapping.getBistroId())) {
                         BistroContextDto bistroContextDto = bistroContextDtoMap.get(roleMapping.getBistroId());
                         if (bistroContextDto != null) {
-                            BranchContextDto branchContextDto = bistroContextDto.getBranchContextDtoMap().get(roleMapping.getBranchId());
-                            if (branchContextDto.getRoleResponseDtoList() == null) {
-                                branchContextDto.setRoleResponseDtoList(new ArrayList<>());
+                            BranchContextDto branchContextDto = branchContextDtoMap.get(roleMapping.getBranchId());
+                            if (branchContextDto.getRoles() == null) {
+                                branchContextDto.setRoles(new ArrayList<>());
                             }
-                            branchContextDto.getRoleResponseDtoList()
+                            branchContextDto.getRoles()
                                     .add(RoleResponseDto
                                             .builder()
                                             .userRoleId(roleMapping.getRole().getUserRoleId())
@@ -92,7 +100,7 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
                         }
                     }
                 });
-        return bistroContextDtoMap;
+        return bistroContextDtoMap.values().stream().toList();
     }
 
     @Override

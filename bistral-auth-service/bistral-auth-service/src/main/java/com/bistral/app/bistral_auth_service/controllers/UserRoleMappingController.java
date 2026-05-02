@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -37,10 +38,10 @@ public class UserRoleMappingController {
                 );
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<ApiResponse<Map<UUID, BistroContextDto>>> getRoleOfUsers(@PathVariable UUID userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<List<BistroContextDto>>> getRoleOfUsers(@PathVariable UUID userId) {
         return ResponseEntity.ok(
-                ApiResponse. <Map <UUID, BistroContextDto >> builder()
+                ApiResponse.<List<BistroContextDto>>builder()
                         .message("role mapping found successfully")
                         .data(roleUserMappingCrudService.getRolesOfUser(userId))
                         .build()

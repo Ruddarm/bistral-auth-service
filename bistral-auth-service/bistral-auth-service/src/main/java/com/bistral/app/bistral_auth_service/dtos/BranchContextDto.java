@@ -17,6 +17,6 @@ public class BranchContextDto {
 
     private UUID branchId;
     private String branchName;
-    private List<RoleResponseDto> roleResponseDtoList;
+    private List<RoleResponseDto> roles;
 
 }
