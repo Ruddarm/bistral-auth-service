@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
+import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.*;
 import com.bistral.app.bistral_auth_service.entity.RoleEntity;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
@@ -53,9 +54,10 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
     }
 
     @Override
-    public List<BistroContextDto> getRolesOfUser(UUID userId) {
+    public List<BistroContextDto> getRolesOfUser() {
         List<UserRoleMappingEntity> roleMappingEntities =
-                userRoleMappingRepository.findRolesOfUserByUserId(userId);
+                userRoleMappingRepository.findRolesOfUserByUserId(UserContextHolder
+                        .getAuthContext().getUserId());
         Map<UUID, Map<UUID, List<RoleResponseDto>>> roleMap = new HashMap<>();
         Set<UUID> bistroIds = new HashSet<>();
         Set<UUID> branchIds = new HashSet<>();
@@ -81,7 +83,6 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
                         )
 
         );
-
         roleMappingEntities
                 .forEach((roleMapping) -> {
                     if (bistroContextDtoMap.containsKey(roleMapping.getBistroId())) {

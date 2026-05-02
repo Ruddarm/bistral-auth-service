@@ -16,6 +16,6 @@ public class AuthResponse {
 
     private String accessToken;
     private String refreshToken;
-    private UserEntity user;
+    private UserLoginContextDto userContext;
     private Long expireIn;
 }

@@ -4,6 +4,7 @@ import com.bistral.app.bistral_auth_service.contexts.AuthContext;
 import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.AuthResponse;
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
+import com.bistral.app.bistral_auth_service.dtos.UserLoginContextDto;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
 import com.bistral.app.bistral_auth_service.entity.UserEntity;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Service implementation responsible for handling authentication workflows.
- *
+ * <p>
  * Authenticates user credentials using Spring Security's AuthenticationManager
  * and generates JWT access and refresh tokens via JwtService.
  */
@@ -40,13 +41,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse authenticate(UserLoginRequest loginRequest) throws Exception {
 
-        UserEntity user =  (UserEntity) authenticationManager
+        UserEntity user = (UserEntity) authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(user,new LoginContext()))
+                        .accessToken(jwtService.getAccessToken(user, new LoginContext()))
                         .refreshToken(jwtService.getRefreshToken(user))
-                        .user(user)
+                        .userContext(UserLoginContextDto.buildUserLoginContext(user, null))
                         .expireIn(10000L)
                         .build();
     }
@@ -60,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse refreshToken(String refreshToken) throws Exception {
         AuthContext authContext = UserContextHolder.getAuthContext();
-        LoginContext context = LoginContext
+        LoginContext loginContext = LoginContext
                 .builder()
                 .permission(authContext.getPermissions().stream().toList())
                 .bistroId(authContext.getBistroId())
@@ -70,8 +71,8 @@ public class AuthServiceImpl implements AuthService {
         UserEntity user = userCrudService.getUserById(authContext.getUserId());
         return AuthResponse
                 .builder()
-                .user(user)
-                .accessToken(jwtService.getAccessToken(user,context))
+                .userContext(UserLoginContextDto.buildUserLoginContext(user, loginContext))
+                .accessToken(jwtService.getAccessToken(user, loginContext))
                 .refreshToken(jwtService.getRefreshToken(user))
                 .build();
 
@@ -83,14 +84,13 @@ public class AuthServiceImpl implements AuthService {
         UserEntity userEntity = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
         loginContext.setPermission(
                 userRoleMappingCrudService.getListOfPermissionForUser(UserContextHolder.getAuthContext().getUserId(),
-                        loginContext.getBistroId(),loginContext.getBranchId(),
+                        loginContext.getBistroId(), loginContext.getBranchId(),
                         loginContext.getRoleId())
         );
-
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(userEntity,loginContext))
-                        .user(userEntity)
+                        .accessToken(jwtService.getAccessToken(userEntity, loginContext))
+                        .userContext(UserLoginContextDto.buildUserLoginContext(userEntity, loginContext))
                         .expireIn(10000L)
                         .build();
 

@@ -18,7 +18,7 @@ public interface RoleUserMappingCrudService {
     Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto);
 
     //    @HasPermission("ROLE:VIEW")
-    List<BistroContextDto> getRolesOfUser(UUID userId);
+    List<BistroContextDto> getRolesOfUser();
 
     @HasPermission("ROLE:VIEW")
     List<String> getListOfPermissionForUser(UUID userId, UUID bistroId, UUID branchId, UUID roleId);

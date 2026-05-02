@@ -38,12 +38,12 @@ public class UserRoleMappingController {
                 );
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse<List<BistroContextDto>>> getRoleOfUsers(@PathVariable UUID userId) {
+    @GetMapping("")
+    public ResponseEntity<ApiResponse<List<BistroContextDto>>> getRoleOfUsers() {
         return ResponseEntity.ok(
                 ApiResponse.<List<BistroContextDto>>builder()
                         .message("role mapping found successfully")
-                        .data(roleUserMappingCrudService.getRolesOfUser(userId))
+                        .data(roleUserMappingCrudService.getRolesOfUser())
                         .build()
         );
     }
