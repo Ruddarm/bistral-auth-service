@@ -28,7 +28,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class RolePermissionEntity {
+public class RolePermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,15 +37,15 @@ public class RolePermissionEntity {
 
     @JoinColumn(name = "user_role_id",nullable = false)
     @ManyToOne
-    private RoleEntity role;
+    private Roles role;
 
     @JoinColumn(name = "resource_id",nullable = false)
     @ManyToOne
-    private ResourceEntity resource;
+    private Resources resource;
 
     @JoinColumn(name = "action_id",nullable = false)
     @ManyToOne
-    private ActionEntity actionEntity;
+    private Actions actions;
 
     @Column(name = "created_at",nullable = false)
     @CreationTimestamp
@@ -53,7 +53,7 @@ public class RolePermissionEntity {
 
     @JoinColumn(name="created_by",nullable = false)
     @ManyToOne
-    private UserEntity createdBy;
+    private Users createdBy;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
@@ -61,6 +61,6 @@ public class RolePermissionEntity {
 
     @JoinColumn(name="updated_by")
     @ManyToOne
-    private UserEntity updatedBy;
+    private Users updatedBy;
 
 }

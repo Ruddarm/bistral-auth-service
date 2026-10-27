@@ -2,7 +2,7 @@ package com.bistral.app.bistral_auth_service.mapper;
 
 import com.bistral.app.bistral_auth_service.dtos.ResourceRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.ResourceResponseDto;
-import com.bistral.app.bistral_auth_service.entity.ResourceEntity;
+import com.bistral.app.bistral_auth_service.entity.Resources;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,8 +10,8 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ResourceMapper {
 
-    ResourceEntity toResourceEntity(ResourceRequestDto resourceRequestDto);
+    Resources toResourceEntity(ResourceRequestDto resourceRequestDto);
 
-    ResourceResponseDto toResourceResponse(ResourceEntity resourceEntity);
+    ResourceResponseDto toResourceResponse(Resources resources);
 
 }

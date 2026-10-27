@@ -1,6 +1,6 @@
 //package com.bistral.app.bistral_auth_service.filters;
 //
-//import com.bistral.app.bistral_auth_service.entity.UserEntity;
+//import com.bistral.app.bistral_auth_service.entity.Users;
 //import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 //import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 //import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
@@ -42,7 +42,7 @@
 //            }
 //            String jwtToken = token.split("Bearer ")[1];
 //            java.util.UUID userid = jwtService.getAuthContext(token);
-//            UserEntity user = userCrudService.getUserById(userid);
+//            Users user = userCrudService.getUserById(userid);
 //            if (SecurityContextHolder.getContext() == null) {
 //                jwtService.isTokenValid(token, user);
 //                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken

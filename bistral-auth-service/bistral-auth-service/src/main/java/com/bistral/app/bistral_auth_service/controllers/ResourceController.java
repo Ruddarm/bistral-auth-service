@@ -4,7 +4,6 @@ package com.bistral.app.bistral_auth_service.controllers;
 import com.bistral.app.bistral_auth_service.dtos.ApiResponse;
 import com.bistral.app.bistral_auth_service.dtos.ResourceRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.ResourceResponseDto;
-import com.bistral.app.bistral_auth_service.entity.ResourceEntity;
 import com.bistral.app.bistral_auth_service.mapper.ResourceMapper;
 import com.bistral.app.bistral_auth_service.service.interfaces.ResourceCrudService;
 import jakarta.validation.Valid;

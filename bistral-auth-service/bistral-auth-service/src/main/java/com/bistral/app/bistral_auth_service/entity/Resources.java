@@ -36,7 +36,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResourceEntity {
+public class Resources {
 
     @Id
     @GeneratedValue( strategy = GenerationType.UUID)
@@ -47,7 +47,7 @@ public class ResourceEntity {
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
-    private UserEntity createdBy;
+    private Users createdBy;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -58,7 +58,7 @@ public class ResourceEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "updated_by")
-    private UserEntity updated_by;
+    private Users updated_by;
 
 
 }

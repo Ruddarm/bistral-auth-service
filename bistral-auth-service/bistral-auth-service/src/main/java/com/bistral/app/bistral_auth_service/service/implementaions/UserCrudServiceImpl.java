@@ -2,7 +2,7 @@ package com.bistral.app.bistral_auth_service.service.implementaions;
 
 import com.bistral.app.bistral_auth_service.dtos.CreateUserDto;
 import com.bistral.app.bistral_auth_service.dtos.UserResponseDto;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.enums.UserType;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.repository.UserRepository;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 /**
- * Implementation of {@link  UserCrudService} to provide crud operation for {@link  UserEntity}
+ * Implementation of {@link  UserCrudService} to provide crud operation for {@link  Users}
  *
  */
 @AllArgsConstructor
@@ -35,27 +35,27 @@ public class UserCrudServiceImpl implements UserCrudService, UserDetailsService 
      */
     @Override
     public UserResponseDto createUser(CreateUserDto userSignUpDto) {
-        UserEntity userEntity =
-                UserEntity.builder()
+        Users users =
+                Users.builder()
                         .userEmail(userSignUpDto.getUserEmail())
                         .username(userSignUpDto.getUserName())
                         .build();
-        userEntity.setUserHashPasswd(
+        users.setUserHashPasswd(
                 bCryptPasswordEncoder.encode(userSignUpDto.getPassword())
         );
         //TODO As of new we creating system user by default
-        userEntity.setUserTypeEnum(UserType.SYSTEM_USER);
-        userEntity = userCrudRepository.save(userEntity);
+        users.setUserTypeEnum(UserType.SYSTEM_USER);
+        users = userCrudRepository.save(users);
         return UserResponseDto.builder()
-                .userEmail(userEntity.getUserEmail())
-                .username(userEntity.getUsername())
-                .userId(userEntity.getUserId())
-                .userTypeEnum(userEntity.getUserTypeEnum())
+                .userEmail(users.getUserEmail())
+                .username(users.getUsername())
+                .userId(users.getUserId())
+                .userTypeEnum(users.getUserTypeEnum())
                 .build();
     }
 
     @Override
-    public UserEntity getUserById(UUID userId) throws UserNotFoundException {
+    public Users getUserById(UUID userId) throws UserNotFoundException {
         return userCrudRepository
                 .findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId, "User not found with given Id " + userId));

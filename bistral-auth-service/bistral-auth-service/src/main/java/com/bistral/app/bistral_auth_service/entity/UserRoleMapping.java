@@ -6,12 +6,11 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.management.relation.Role;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Represent A mapping between {@link UserEntity} user  and {@link RoleEntity} role,
+ * Represent A mapping between {@link Users} user  and {@link Roles} role,
  * mean a role of <code>Bistro</code> assigned to user
  * <note>
  *     Each user must have assign one role only once , but user can have
@@ -46,7 +45,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserRoleMappingEntity {
+public class UserRoleMapping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -55,11 +54,11 @@ public class UserRoleMappingEntity {
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private RoleEntity role;
+    private Roles role;
 
     @ManyToOne()
     @JoinColumn(name = "user_id" , nullable = false)
-    private UserEntity user;
+    private Users user;
 
     @Column(name = "bistro_id", nullable = false)
     private UUID bistroId;
@@ -69,7 +68,7 @@ public class UserRoleMappingEntity {
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
-    private UserEntity createdBy;
+    private Users createdBy;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -81,6 +80,6 @@ public class UserRoleMappingEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "updated_by", nullable = false)
-    private UserEntity updated_by;
+    private Users updated_by;
 
 }

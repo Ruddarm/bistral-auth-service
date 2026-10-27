@@ -1,13 +1,12 @@
 package com.bistral.app.bistral_auth_service.dtos;
 
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -22,14 +21,14 @@ public class UserLoginContextDto {
     private UserType userType;
     private LoginContext loginContext;
 
-    public static UserLoginContextDto buildUserLoginContext(UserEntity userEntity, LoginContext loginContext) {
+    public static UserLoginContextDto buildUserLoginContext(Users users, LoginContext loginContext) {
         return UserLoginContextDto
                 .builder()
-                .userId(userEntity.getUserId())
-                .userName(userEntity.getUsername())
-                .userEmail(userEntity.getUserEmail())
+                .userId(users.getUserId())
+                .userName(users.getUsername())
+                .userEmail(users.getUserEmail())
                 .loginContext(loginContext)
-                .userType(userEntity.getUserTypeEnum())
+                .userType(users.getUserTypeEnum())
                 .build();
     }
 

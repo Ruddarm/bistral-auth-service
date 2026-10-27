@@ -1,6 +1,6 @@
 package com.bistral.app.bistral_auth_service.repository;
 
-import com.bistral.app.bistral_auth_service.entity.RoleEntity;
+import com.bistral.app.bistral_auth_service.entity.Roles;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,14 +11,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Repository interface for managing {@link RoleEntity}.
+ * Repository interface for managing {@link Roles}.
  * Provides CRUD operations as well as other custom data access method.
  */
 @Repository
-public interface RoleRepository extends JpaRepository<RoleEntity, UUID> {
+public interface RoleRepository extends JpaRepository<Roles, UUID> {
 
 
-    public Optional<RoleEntity> findByUserRoleIdAndBistroId(UUID roleId, UUID bistroId);
+    public Optional<Roles> findByUserRoleIdAndBistroId(UUID roleId, UUID bistroId);
 
 
     @Query

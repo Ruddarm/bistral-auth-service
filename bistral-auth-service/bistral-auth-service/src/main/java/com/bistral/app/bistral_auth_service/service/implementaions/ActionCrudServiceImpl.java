@@ -3,8 +3,8 @@ package com.bistral.app.bistral_auth_service.service.implementaions;
 import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.ActionRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.ActionResponseDto;
-import com.bistral.app.bistral_auth_service.entity.ActionEntity;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Actions;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.exceptions.ResourceNotFoundExceptions;
 import com.bistral.app.bistral_auth_service.mapper.ActionMapper;
 import com.bistral.app.bistral_auth_service.repository.ActionRepository;
@@ -28,18 +28,18 @@ public class ActionCrudServiceImpl implements ActionCrudService {
      */
     @Override
     public ActionResponseDto createAction(ActionRequestDto actionRequestDto) {
-        UserEntity user = UserEntity.builder()
+        Users user = Users.builder()
                 .userId(UserContextHolder.getAuthContext()
                         .getUserId()).build();
         return actionMapper.toActionResponse(actionRepository.
-                save(ActionEntity.builder()
+                save(Actions.builder()
                         .actionName(actionRequestDto.getActionName().toUpperCase())
                         .createdBy(user)
                         .build()));
     }
 
     @Override
-    public ActionEntity getActionById(UUID actionId) {
+    public Actions getActionById(UUID actionId) {
         return actionRepository
                 .findById(actionId)
                 .orElseThrow(()-> new ResourceNotFoundExceptions("Action Not found with Id "+actionId,actionId.toString(),"action"));

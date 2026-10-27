@@ -6,15 +6,17 @@ import com.bistral.app.bistral_auth_service.dtos.AuthResponse;
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginContextDto;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
-import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
 import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
 
 /**
  * Service implementation responsible for handling authentication workflows.
@@ -26,6 +28,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
+
+    private static final Logger log =
+            LoggerFactory.getLogger(AuthServiceImpl.class);
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserRoleMappingCrudServiceImpl userRoleMappingCrudService;
@@ -40,8 +45,12 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public AuthResponse authenticate(UserLoginRequest loginRequest) throws Exception {
-
-        UserEntity user = (UserEntity) authenticationManager
+        log.error("authentication start");
+        log.info("authentication start");
+        log.warn("authentication start");
+        log.debug("authentication start");
+        log.trace("authentication start");
+        Users user = (Users) authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
         return
                 AuthResponse.builder()
@@ -68,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
                 .branchId(authContext.getBranchId())
                 .roleId(authContext.getRoleId())
                 .build();
-        UserEntity user = userCrudService.getUserById(authContext.getUserId());
+        Users user = userCrudService.getUserById(authContext.getUserId());
         return AuthResponse
                 .builder()
                 .userContext(UserLoginContextDto.buildUserLoginContext(user, loginContext))
@@ -81,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse switchLoginContext(LoginContext loginContext) throws Exception {
 
-        UserEntity userEntity = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
+        Users users = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
         loginContext.setPermission(
                 userRoleMappingCrudService.getListOfPermissionForUser(UserContextHolder.getAuthContext().getUserId(),
                         loginContext.getBistroId(), loginContext.getBranchId(),
@@ -89,8 +98,8 @@ public class AuthServiceImpl implements AuthService {
         );
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(userEntity, loginContext))
-                        .userContext(UserLoginContextDto.buildUserLoginContext(userEntity, loginContext))
+                        .accessToken(jwtService.getAccessToken(users, loginContext))
+                        .userContext(UserLoginContextDto.buildUserLoginContext(users, loginContext))
                         .expireIn(10000L)
                         .build();
 

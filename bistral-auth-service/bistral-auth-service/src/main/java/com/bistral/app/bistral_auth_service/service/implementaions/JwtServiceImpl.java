@@ -1,14 +1,12 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -19,7 +17,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -108,7 +105,7 @@ public class JwtServiceImpl implements JwtService {
      * @return signed JWT access token
      */
     @Override
-    public String getAccessToken(UserEntity user, LoginContext loginContext) throws Exception {
+    public String getAccessToken(Users user, LoginContext loginContext) throws Exception {
         Objects.requireNonNull(loginContext,"login Context Cant not be null");
         return
                 Jwts
@@ -144,7 +141,7 @@ public class JwtServiceImpl implements JwtService {
      * @return signed JWT refresh token
      */
     @Override
-    public String getRefreshToken(UserEntity user) throws Exception {
+    public String getRefreshToken(Users user) throws Exception {
         return Jwts
                 .builder()
                 .subject(user.getUserId().toString())
@@ -156,7 +153,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isTokenValid(String token, UserEntity userEntity) {
+    public boolean isTokenValid(String token, Users users) {
         return false;
     }
 

@@ -17,7 +17,6 @@ public interface RoleUserMappingCrudService {
     @HasPermission("ROLE:VIEW")
     Boolean assignRole(UserRoleMappingRequestDto roleMappingRequestDto);
 
-    //    @HasPermission("ROLE:VIEW")
     List<BistroContextDto> getRolesOfUser();
 
     @HasPermission("ROLE:VIEW")

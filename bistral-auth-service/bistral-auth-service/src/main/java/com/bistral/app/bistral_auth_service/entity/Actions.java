@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Represent Action that can be performed  by {@link UserEntity} on {@link ResourceEntity}
+ * Represent Action that can be performed  by {@link Users} on {@link Resources}
  * A Action Need to be unique through applications.
  */
 @Entity
@@ -25,7 +25,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActionEntity {
+public class Actions {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.UUID)
@@ -37,7 +37,7 @@ public class ActionEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", nullable = false)
-    private UserEntity createdBy;
+    private Users createdBy;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -48,6 +48,6 @@ public class ActionEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "updated_by")
-    private UserEntity updated_by;
+    private Users updated_by;
 
 }

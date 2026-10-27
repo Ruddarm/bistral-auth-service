@@ -1,28 +1,26 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
 import com.bistral.app.bistral_auth_service.annotation.HasPermission;
-import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
-import com.bistral.app.bistral_auth_service.entity.RoleEntity;
+import com.bistral.app.bistral_auth_service.entity.Roles;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
-import org.hibernate.query.Page;
 
 import java.util.List;
 import java.util.UUID;
 
 /**
- * Provide interface for curd operation on {@link com.bistral.app.bistral_auth_service.entity.RoleEntity}
+ * Provide interface for curd operation on {@link Roles}
  */
 public interface RoleCrudService {
 
     /**
-     * Create {@link  com.bistral.app.bistral_auth_service.entity.RoleEntity} for a given bistro id in {@link  RoleRequestDto}
+     * Create {@link  Roles} for a given bistro id in {@link  RoleRequestDto}
      * @param roleRequestDto represent high level abstraction of {@link  RoleRequestDto}
-     * @return {@link RoleResponseDto} Only required field from {@link com.bistral.app.bistral_auth_service.entity.RoleEntity}
+     * @return {@link RoleResponseDto} Only required field from {@link Roles}
      */
     @HasPermission("ROLE:CREATE")
     RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException;
@@ -33,7 +31,7 @@ public interface RoleCrudService {
      * @return
      */
     @HasPermission("ROLE:VIEW")
-    RoleEntity getRoleByIdAndBistroId(UUID roleId);
+    Roles getRoleByIdAndBistroId(UUID roleId);
 
     /**
      * Get list of roles based on given filter criteria.

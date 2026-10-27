@@ -1,16 +1,14 @@
 package com.bistral.app.bistral_auth_service.repository;
 
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Repository interface for managing {@link com.bistral.app.bistral_auth_service.entity.UserEntity}.
+ * Repository interface for managing {@link Users}.
  *
  * <p>
  * Provides CRUD operations for user data including support for
@@ -23,7 +21,7 @@ import java.util.UUID;
  * </p>
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+public interface UserRepository extends JpaRepository<Users, UUID> {
 
     /**
      * Find Active user by their  userName
@@ -34,9 +32,9 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
      * </p>
      *
      * @param userName represent username of user,
-     * @return {@link  UserEntity}
+     * @return {@link  Users}
      */
-    Optional<UserEntity> findByUsernameAndIsActiveTrueAndDeletedAtIsNull(String userName);
+    Optional<Users> findByUsernameAndIsActiveTrueAndDeletedAtIsNull(String userName);
 
 
     /**
@@ -48,9 +46,9 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
      * </p>
      *
      * @param userName represent username of user,
-     * @return {@link  UserEntity}
+     * @return {@link  Users}
      */
-    Optional<UserEntity> findByUserEmailAndIsActiveTrueAndDeletedAtIsNull(String userName);
+    Optional<Users> findByUserEmailAndIsActiveTrueAndDeletedAtIsNull(String userName);
 
 
 

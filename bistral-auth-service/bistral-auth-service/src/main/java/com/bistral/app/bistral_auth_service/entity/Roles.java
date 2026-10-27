@@ -32,7 +32,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleEntity {
+public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_role_id")
@@ -50,17 +50,17 @@ public class RoleEntity {
 
     @JoinColumn(name = "created_by",nullable = false)
     @ManyToOne
-    private UserEntity createdBy;
+    private Users createdBy;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "updated_by")
-    private UserEntity updatedBy;
+    private Users updatedBy;
 
     @OneToMany(mappedBy = "role")
-    private List<RolePermissionEntity> rolePermissions;
+    private List<RolePermission> rolePermissions;
 
     @Override
     public String toString() {

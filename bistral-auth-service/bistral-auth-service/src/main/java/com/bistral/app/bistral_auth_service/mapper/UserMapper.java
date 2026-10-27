@@ -1,7 +1,7 @@
 package com.bistral.app.bistral_auth_service.mapper;
 
 import com.bistral.app.bistral_auth_service.dtos.UserResponseDto;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -9,6 +9,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
-    UserResponseDto toUserResponseDto(UserEntity user);
+    UserResponseDto toUserResponseDto(Users user);
 
 }

@@ -3,8 +3,8 @@ package com.bistral.app.bistral_auth_service.service.implementaions;
 import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.ResourceRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.ResourceResponseDto;
-import com.bistral.app.bistral_auth_service.entity.ResourceEntity;
-import com.bistral.app.bistral_auth_service.entity.UserEntity;
+import com.bistral.app.bistral_auth_service.entity.Resources;
+import com.bistral.app.bistral_auth_service.entity.Users;
 import com.bistral.app.bistral_auth_service.exceptions.ResourceNotFoundExceptions;
 import com.bistral.app.bistral_auth_service.mapper.ResourceMapper;
 import com.bistral.app.bistral_auth_service.repository.ResourceRepository;
@@ -23,22 +23,22 @@ public class ResourceCrudServiceImpl implements ResourceCrudService {
     private final ResourceMapper resourceMapper;
 
     @Override
-    public ResourceEntity createResource(ResourceRequestDto resourceRequestDto) {
+    public Resources createResource(ResourceRequestDto resourceRequestDto) {
 
-        ResourceEntity resourceEntity = ResourceEntity
+        Resources resources = Resources
                 .builder()
                 .resourceName(resourceRequestDto.getResourceName()
                         .toUpperCase())
-                .createdBy(UserEntity.builder()
+                .createdBy(Users.builder()
                         .userId(UserContextHolder
                                 .getAuthContext()
                                 .getUserId()).build())
                 .build();
-        return  resourceRepository.save(resourceEntity);
+        return  resourceRepository.save(resources);
     }
 
     @Override
-    public ResourceEntity findResourceById(UUID resourceId) {
+    public Resources findResourceById(UUID resourceId) {
         return resourceRepository.findById(resourceId)
                 .orElseThrow(()-> new ResourceNotFoundExceptions("Resource not found with Id "+resourceId,
                         resourceId.toString(),"resource"));

@@ -36,21 +36,21 @@ public class RolePermissionCrudServiceImpl implements RolePermissionCrudService 
     @Override
     public RoleResponseDto assignPermissionToRole(UUID roleId, List<RolePermissionRequestDto> rolePermissionRequests) {
 
-        RoleEntity roleEntity = roleCrudService
+        Roles roles = roleCrudService
                 .getRoleByIdAndBistroId(roleId);
-        UserEntity createdBy = UserEntity.builder().userId(UserContextHolder
+        Users createdBy = Users.builder().userId(UserContextHolder
                 .getAuthContext().getUserId()).build();
         rolePermissionRepository.deleteByRoleId(roleId);
-        List<RolePermissionEntity> permissionEntities
+        List<RolePermission> permissionEntities
                 = rolePermissionRequests
                 .stream()
                 .filter(RolePermissionRequestDto::getIsAllowed).map(
                         (req) ->
-                                RolePermissionEntity.
+                                RolePermission.
                                         builder()
-                                        .role(roleEntity)
-                                        .resource(ResourceEntity.builder().resourceId(req.getResourceId()).build())
-                                        .actionEntity(ActionEntity.builder().actionId(req.getActionId()).build())
+                                        .role(roles)
+                                        .resource(Resources.builder().resourceId(req.getResourceId()).build())
+                                        .actions(Actions.builder().actionId(req.getActionId()).build())
                                         .createdBy(createdBy)
                                         .build()
                 ).toList();

@@ -15,9 +15,6 @@ import java.util.List;
 @Component
 public class AppConfig {
 
-
-
-
     @Bean
     public BCryptPasswordEncoder getBCryptPasswordEncoder(){
         return  new BCryptPasswordEncoder();
