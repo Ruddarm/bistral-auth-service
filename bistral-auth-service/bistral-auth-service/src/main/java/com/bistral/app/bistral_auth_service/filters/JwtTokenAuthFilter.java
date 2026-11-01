@@ -1,6 +1,6 @@
 //package com.bistral.app.bistral_auth_service.filters;
 //
-//import com.bistral.app.bistral_auth_service.entity.Users;
+//import com.bistral.app.bistral_auth_service.entity.TenantUser;
 //import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 //import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 //import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
@@ -42,11 +42,11 @@
 //            }
 //            String jwtToken = token.split("Bearer ")[1];
 //            java.util.UUID userid = jwtService.getAuthContext(token);
-//            Users user = userCrudService.getUserById(userid);
+//            TenantUser tenantUser = userCrudService.getUserById(userid);
 //            if (SecurityContextHolder.getContext() == null) {
-//                jwtService.isTokenValid(token, user);
+//                jwtService.isTokenValid(token, tenantUser);
 //                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-//                        = new UsernamePasswordAuthenticationToken(user, null, null);
+//                        = new UsernamePasswordAuthenticationToken(tenantUser, null, null);
 //                usernamePasswordAuthenticationToken
 //                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 //                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -55,7 +55,7 @@
 //        } catch (UserNotFoundException userNotFoundException) {
 //            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 //            response.setContentType("application/json");
-//            response.getWriter().write("{\"message\": \"User not found\"}");
+//            response.getWriter().write("{\"message\": \"TenantUser not found\"}");
 //            response.getWriter().flush();
 //        } catch (ExpiredJwtException ex) {
 //            response.setStatus(HttpServletResponse.SC_FORBIDDEN);

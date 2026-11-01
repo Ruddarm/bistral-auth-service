@@ -3,7 +3,7 @@ package com.bistral.app.bistral_auth_service.mapper;
 import com.bistral.app.bistral_auth_service.dtos.RolePermissionResponseDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
-import com.bistral.app.bistral_auth_service.entity.Roles;
+import com.bistral.app.bistral_auth_service.entity.TenantRole;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -15,10 +15,10 @@ import java.util.UUID;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoleMapper {
 
-    RoleResponseDto toRoleResponse(Roles roles);
+    RoleResponseDto toRoleResponse(TenantRole tenantRole);
 
 
-    Roles toRoleEntity(RoleRequestDto roleRequestDto);
+    TenantRole toRoleEntity(RoleRequestDto roleRequestDto);
 
 
     default RoleResponseDto toRoleResponseWithPermission(List<RolePermissionProjection> rolePermissionProjection) {

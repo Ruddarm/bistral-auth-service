@@ -5,7 +5,7 @@ import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
-import com.bistral.app.bistral_auth_service.entity.Roles;
+import com.bistral.app.bistral_auth_service.entity.TenantRole;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
 
@@ -13,25 +13,25 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Provide interface for curd operation on {@link Roles}
+ * Provide interface for curd operation on {@link TenantRole}
  */
 public interface RoleCrudService {
 
     /**
-     * Create {@link  Roles} for a given bistro id in {@link  RoleRequestDto}
+     * Create {@link  TenantRole} for a given bistro id in {@link  RoleRequestDto}
      * @param roleRequestDto represent high level abstraction of {@link  RoleRequestDto}
-     * @return {@link RoleResponseDto} Only required field from {@link Roles}
+     * @return {@link RoleResponseDto} Only required field from {@link TenantRole}
      */
     @HasPermission("ROLE:CREATE")
     RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException;
 
     /**
-     * Get role by role id of bistro , but <code>user</code> have right  to access role.
+     * Get tenantRole by tenantRole id of bistro , but <code>tenantUser</code> have right  to access tenantRole.
      * @param roleId
      * @return
      */
     @HasPermission("ROLE:VIEW")
-    Roles getRoleByIdAndBistroId(UUID roleId);
+    TenantRole getRoleByIdAndBistroId(UUID roleId);
 
     /**
      * Get list of roles based on given filter criteria.
@@ -40,7 +40,7 @@ public interface RoleCrudService {
      * <ul>
      *     <li>bistroId (mandatory) - to scope roles within a specific bistro</li>
      *     <li>roleName (optional) - to search roles by name (supports partial match)</li>
-     *     <li>createdBy (optional) - filter roles created by a specific user</li>
+     *     <li>createdBy (optional) - filter roles created by a specific tenantUser</li>
      * </ul>
      *
      * If no optional filters are provided, all roles for the given bistro are returned.

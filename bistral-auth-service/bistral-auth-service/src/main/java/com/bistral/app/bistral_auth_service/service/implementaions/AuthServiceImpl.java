@@ -6,7 +6,7 @@ import com.bistral.app.bistral_auth_service.dtos.AuthResponse;
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginContextDto;
 import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
 import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 /**
  * Service implementation responsible for handling authentication workflows.
  * <p>
- * Authenticates user credentials using Spring Security's AuthenticationManager
+ * Authenticates tenantUser credentials using Spring Security's AuthenticationManager
  * and generates JWT access and refresh tokens via JwtService.
  */
 @AllArgsConstructor
@@ -37,10 +37,10 @@ public class AuthServiceImpl implements AuthService {
     private final UserCrudService userCrudService;
 
     /**
-     * Authenticates user credentials and returns JWT tokens.
+     * Authenticates tenantUser credentials and returns JWT tokens.
      *
      * @param loginRequest contains username and password
-     * @return AuthResponse containing access token, refresh token, and user details
+     * @return AuthResponse containing access token, refresh token, and tenantUser details
      * @throws Exception if authentication or token generation fails
      */
     @Override
@@ -50,13 +50,13 @@ public class AuthServiceImpl implements AuthService {
         log.warn("authentication start");
         log.debug("authentication start");
         log.trace("authentication start");
-        Users user = (Users) authenticationManager
+        TenantUser tenantUser = (TenantUser) authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(user, new LoginContext()))
-                        .refreshToken(jwtService.getRefreshToken(user))
-                        .userContext(UserLoginContextDto.buildUserLoginContext(user, null))
+                        .accessToken(jwtService.getAccessToken(tenantUser, new LoginContext()))
+                        .refreshToken(jwtService.getRefreshToken(tenantUser))
+                        .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, null))
                         .expireIn(10000L)
                         .build();
     }
@@ -77,12 +77,12 @@ public class AuthServiceImpl implements AuthService {
                 .branchId(authContext.getBranchId())
                 .roleId(authContext.getRoleId())
                 .build();
-        Users user = userCrudService.getUserById(authContext.getUserId());
+        TenantUser tenantUser = userCrudService.getUserById(authContext.getUserId());
         return AuthResponse
                 .builder()
-                .userContext(UserLoginContextDto.buildUserLoginContext(user, loginContext))
-                .accessToken(jwtService.getAccessToken(user, loginContext))
-                .refreshToken(jwtService.getRefreshToken(user))
+                .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, loginContext))
+                .accessToken(jwtService.getAccessToken(tenantUser, loginContext))
+                .refreshToken(jwtService.getRefreshToken(tenantUser))
                 .build();
 
     }
@@ -90,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse switchLoginContext(LoginContext loginContext) throws Exception {
 
-        Users users = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
+        TenantUser tenantUser = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
         loginContext.setPermission(
                 userRoleMappingCrudService.getListOfPermissionForUser(UserContextHolder.getAuthContext().getUserId(),
                         loginContext.getBistroId(), loginContext.getBranchId(),
@@ -98,8 +98,8 @@ public class AuthServiceImpl implements AuthService {
         );
         return
                 AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(users, loginContext))
-                        .userContext(UserLoginContextDto.buildUserLoginContext(users, loginContext))
+                        .accessToken(jwtService.getAccessToken(tenantUser, loginContext))
+                        .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, loginContext))
                         .expireIn(10000L)
                         .build();
 

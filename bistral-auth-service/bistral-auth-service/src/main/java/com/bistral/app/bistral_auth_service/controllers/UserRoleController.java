@@ -26,7 +26,7 @@ public class UserRoleController {
     public ApiResponse<RoleResponseDto> createRole(@Valid @RequestBody RoleRequestDto roleRequestDto) throws UserNotFoundException {
         return ApiResponse.<RoleResponseDto>builder()
                 .isError(false)
-                .message("Role Created Successfully")
+                .message("TenantRole Created Successfully")
                 .data(roleCrudService.createRole(roleRequestDto))
                 .build();
     }
@@ -36,7 +36,7 @@ public class UserRoleController {
         return ApiResponse.<RoleResponseDto>builder()
                 .data(roleMapper
                         .toRoleResponseWithPermission(roleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)))
-                .message("Role found")
+                .message("TenantRole found")
                 .build();
     }
 

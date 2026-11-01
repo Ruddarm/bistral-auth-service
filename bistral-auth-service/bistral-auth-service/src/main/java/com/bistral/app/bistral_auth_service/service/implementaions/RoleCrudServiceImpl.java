@@ -5,8 +5,8 @@ import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
 import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
-import com.bistral.app.bistral_auth_service.entity.Roles;
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.TenantRole;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.exceptions.ResourceNotFoundExceptions;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.mapper.RoleMapper;
@@ -32,8 +32,8 @@ public class RoleCrudServiceImpl implements RoleCrudService {
 
     @Override
     public RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException {
-        Roles roles = roleMapper.toRoleEntity(roleRequestDto);
-        roles.setCreatedBy(Users.builder()
+        TenantRole tenantRole = roleMapper.toRoleEntity(roleRequestDto);
+        tenantRole.setCreatedBy(TenantUser.builder()
                 .userId(
                         userCrudService
                                 .getUserById(UserContextHolder.getAuthContext()
@@ -41,21 +41,22 @@ public class RoleCrudServiceImpl implements RoleCrudService {
                 )
                 .build()
         );
-        roles.setBistroId(UserContextHolder.getAuthContext().getBistroId());
+        tenantRole.setBistroId(UserContextHolder.getAuthContext().getBistroId());
         return
-                roleMapper.toRoleResponse(roleRepository.save(roles));
+                roleMapper.toRoleResponse(roleRepository.save(tenantRole));
 
     }
 
     @Override
-    public Roles getRoleByIdAndBistroId(UUID roleId) {
-        return
-                roleRepository.findByUserRoleIdAndBistroId(roleId, UserContextHolder
-                                .getAuthContext()
-                                .getBistroId())
-                                .orElseThrow(() ->
-                                new ResourceNotFoundExceptions("Role Not Found with given Id",
-                                        roleId.toString(), "Role"));
+    public TenantRole getRoleByIdAndBistroId(UUID roleId) {
+//        return
+//                roleRepository.findByUserRoleIdAndBistroId(roleId, UserContextHolder
+//                                .getAuthContext()
+//                                .getBistroId())
+//                                .orElseThrow(() ->
+//                                new ResourceNotFoundExceptions("TenantRole Not Found with given Id",
+//                                        roleId.toString(), "TenantRole"));
+        return null;
 
     }
 
@@ -68,9 +69,10 @@ public class RoleCrudServiceImpl implements RoleCrudService {
 
     @Override
     public List<RolePermissionProjection> getRoleByRoleIdBistroIdWithPermission(UUID roleId) {
-        return roleRepository
-                .findRoleByIdAndBistroIdWithPermissions(roleId,UserContextHolder
-                        .getAuthContext().getBistroId());
+//        return roleRepository
+//                .findRoleByIdAndBistroIdWithPermissions(roleId,UserContextHolder
+//                        .getAuthContext().getBistroId());
+        return null;
     }
 
 }

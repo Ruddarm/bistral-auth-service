@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/users/role")
+@RequestMapping("/users/tenantRole")
 public class UserRoleMappingController {
 
     private final RoleUserMappingCrudService roleUserMappingCrudService;
@@ -31,7 +31,7 @@ public class UserRoleMappingController {
                 new ResponseEntity<ApiResponse<Boolean>>(
                         ApiResponse.<Boolean>builder()
                                 .data(roleUserMappingCrudService.assignRole(userRoleMappingRequestDto))
-                                .message("Role Assigned Success Fully")
+                                .message("TenantRole Assigned Success Fully")
                                 .isError(false)
                                 .build()
                         , HttpStatus.CREATED
@@ -42,7 +42,7 @@ public class UserRoleMappingController {
     public ResponseEntity<ApiResponse<List<BistroContextDto>>> getRoleOfUsers() {
         return ResponseEntity.ok(
                 ApiResponse.<List<BistroContextDto>>builder()
-                        .message("role mapping found successfully")
+                        .message("tenantRole mapping found successfully")
                         .data(roleUserMappingCrudService.getRolesOfUser())
                         .build()
         );

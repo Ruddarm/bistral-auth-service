@@ -1,12 +1,13 @@
 package com.bistral.app.bistral_auth_service.repository;
 
-import com.bistral.app.bistral_auth_service.entity.Actions;
+import com.bistral.app.bistral_auth_service.entity.Action;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface ActionRepository extends JpaRepository<Actions, UUID> {
+public interface ActionRepository extends JpaRepository<Action, UUID> {
+
 
 }

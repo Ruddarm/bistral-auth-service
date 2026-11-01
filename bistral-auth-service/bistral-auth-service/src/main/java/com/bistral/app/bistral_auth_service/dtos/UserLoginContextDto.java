@@ -1,6 +1,6 @@
 package com.bistral.app.bistral_auth_service.dtos;
 
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,14 +21,13 @@ public class UserLoginContextDto {
     private UserType userType;
     private LoginContext loginContext;
 
-    public static UserLoginContextDto buildUserLoginContext(Users users, LoginContext loginContext) {
+    public static UserLoginContextDto buildUserLoginContext(TenantUser tenantUser, LoginContext loginContext) {
         return UserLoginContextDto
                 .builder()
-                .userId(users.getUserId())
-                .userName(users.getUsername())
-                .userEmail(users.getUserEmail())
+                .userId(tenantUser.getUserId())
+                .userName(tenantUser.getUsername())
+                .userEmail(tenantUser.getUserEmail())
                 .loginContext(loginContext)
-                .userType(users.getUserTypeEnum())
                 .build();
     }
 

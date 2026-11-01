@@ -3,8 +3,9 @@ package com.bistral.app.bistral_auth_service.service.implementaions;
 import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.ResourceRequestDto;
 import com.bistral.app.bistral_auth_service.dtos.ResourceResponseDto;
-import com.bistral.app.bistral_auth_service.entity.Resources;
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.Resource;
+import com.bistral.app.bistral_auth_service.entity.SystemUser;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.exceptions.ResourceNotFoundExceptions;
 import com.bistral.app.bistral_auth_service.mapper.ResourceMapper;
 import com.bistral.app.bistral_auth_service.repository.ResourceRepository;
@@ -23,22 +24,21 @@ public class ResourceCrudServiceImpl implements ResourceCrudService {
     private final ResourceMapper resourceMapper;
 
     @Override
-    public Resources createResource(ResourceRequestDto resourceRequestDto) {
+    public Resource createResource(ResourceRequestDto resourceRequestDto) {
 
-        Resources resources = Resources
+        Resource resource = Resource
                 .builder()
                 .resourceName(resourceRequestDto.getResourceName()
                         .toUpperCase())
-                .createdBy(Users.builder()
-                        .userId(UserContextHolder
+                .createdBy(SystemUser.builder().userId(UserContextHolder
                                 .getAuthContext()
                                 .getUserId()).build())
                 .build();
-        return  resourceRepository.save(resources);
+        return  resourceRepository.save(resource);
     }
 
     @Override
-    public Resources findResourceById(UUID resourceId) {
+    public Resource findResourceById(UUID resourceId) {
         return resourceRepository.findById(resourceId)
                 .orElseThrow(()-> new ResourceNotFoundExceptions("Resource not found with Id "+resourceId,
                         resourceId.toString(),"resource"));

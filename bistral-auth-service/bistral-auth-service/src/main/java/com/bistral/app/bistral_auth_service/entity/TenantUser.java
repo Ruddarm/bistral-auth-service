@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Represent user in a system and user can be of two type
+ * Represent tenantUser in a system and tenantUser can be of two type
  * <ul>
- *     <li><code>System User</code> Represent user have access to resource related to system </li>
- *     <li><code>Tenant User</code> Represent user a real user of system who will use system for business purpose and
+ *     <li><code>Tenant TenantUser</code> Represent tenantUser a real tenantUser of system who will use system for business purpose and
  *     own resource like bistro, branches order etc
  *     </li>
- *     <li>Each <code>User</code> must have <b>unique email and username</b></li>
+ *     <li>Each <code>TenantUser</code> must have <b>unique email and username</b></li>
  * </ul>
  * <p>Not Null Fields
  *  <ul>
@@ -31,7 +30,7 @@ import java.util.UUID;
  *      <code>Note</code>
  *      <ul>
  *          <li>A username and userEmail should be unique where deleted at is null</li>
- *          <li>To ensure all active user have unique email and username</li>
+ *          <li>To ensure all active tenantUser have unique email and username</li>
  *      </ul>
  *  </p>
  * </p>
@@ -39,13 +38,14 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name = "bistral_users")
+@Table(name = "tenant_user")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users implements UserDetails {
+public class TenantUser implements UserDetails {
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -54,16 +54,11 @@ public class Users implements UserDetails {
     @Column(name = "user_name", nullable = false)
     private  String username;
 
-
     @Column(name = "user_email", nullable = false)
     private  String userEmail;
 
     @Column(name = "password_hash", nullable = false)
     private  String userHashPasswd;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_type")
-    private UserType userTypeEnum;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -79,20 +74,22 @@ public class Users implements UserDetails {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Column(nullable = false)
+    private UUID tenantId;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
-
     @Override
     public String getPassword() {
         return this.userHashPasswd;
     }
-
     @Override
     public String getUsername() {
         return this.username;
     }
+
 
 }

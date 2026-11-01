@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
  * <p>
  *     <ul>
  *         <li><code>userName</code> must not be null or empty</li>
- *         <li><code>userEmail</code>user email should be valid and unique</li>
+ *         <li><code>userEmail</code>tenantUser email should be valid and unique</li>
  *         <li><code>password</code> A password should consist of alphabets, number and special symbols with minimum length of 8 </li>
  *     </ul>
  * </p>

@@ -9,14 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Service interface responsible for handling authentication workflows.
- * Provides operations for user login, token generation, and token refresh.
+ * Provides operations for tenantUser login, token generation, and token refresh.
  * Delegates JWT creation and validation to JwtService.
  *
  */
 public interface AuthService {
 
     /*
-     * Authenticates user credentials and returns access and refresh tokens.
+     * Authenticates tenantUser credentials and returns access and refresh tokens.
      *
      * @param request contains username and password
      * @return authentication response with JWT tokens

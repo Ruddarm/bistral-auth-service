@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,7 +23,7 @@ import java.util.UUID;
  *         <li>A resource should have unique name in system</li>
  *         <li>
  *             <note>
- *                 Resource should be created , update , modify or delete by only system user
+ *                 Resource should be created , update , modify or delete by only system tenantUser
  *             </note>
  *         </li>
  *     </ul>
@@ -36,18 +38,19 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Resources {
+public class Resource {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "resource_id")
     private UUID resourceId;
-    @Column(name = "resource_name",nullable = false)
+
+    @Column(name = "resource_name", nullable = false)
     private String resourceName;
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
-    private Users createdBy;
+    private SystemUser createdBy;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -56,9 +59,14 @@ public class Resources {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false)
+    private boolean isSystemSpecific = true;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "updated_by")
-    private Users updated_by;
+    private SystemUser updated_by;
+
+
 
 
 }

@@ -2,7 +2,7 @@ package com.bistral.app.bistral_auth_service.mapper;
 
 
 import com.bistral.app.bistral_auth_service.dtos.ActionResponseDto;
-import com.bistral.app.bistral_auth_service.entity.Actions;
+import com.bistral.app.bistral_auth_service.entity.Action;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,5 +10,5 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ActionMapper {
 
-    ActionResponseDto toActionResponse(Actions actions);
+    ActionResponseDto toActionResponse(Action action);
 }

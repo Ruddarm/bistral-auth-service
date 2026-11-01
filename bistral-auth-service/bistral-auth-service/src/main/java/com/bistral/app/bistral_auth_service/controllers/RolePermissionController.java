@@ -27,7 +27,7 @@ public class RolePermissionController {
         return ResponseEntity
                 .ok(
                         ApiResponse.<RoleResponseDto>builder()
-                                .message("Permission Assigned to Roles Success fully")
+                                .message("Permission Assigned to TenantRole Success fully")
                                 .data(rolePermissionCrudService
                                         .assignPermissionToRole(roleId,rolePermissionRequestDtoList))
                                 .build()

@@ -16,7 +16,7 @@
 //public class UserRoleMappingCrudRepositoryUnitTest {
 //
 //    static {
-//        System.setProperty("user.timezone", "Asia/Kolkata");
+//        System.setProperty("tenantUser.timezone", "Asia/Kolkata");
 //    }
 //
 //    @Autowired
@@ -34,7 +34,7 @@
 //        userRoleMappingRepository
 //                .findRolesOfUserByUserId(UUID.fromString("5db33be8-04e3-4374-8ed0-d7899ec4024d"))
 //                .forEach((userRole) ->
-//                        System.err.println("user ROle is -->" + userRole)
+//                        System.err.println("tenantUser ROle is -->" + userRole)
 //                );
 //    }
 //

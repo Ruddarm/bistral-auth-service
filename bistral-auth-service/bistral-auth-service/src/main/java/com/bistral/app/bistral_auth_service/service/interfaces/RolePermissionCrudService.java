@@ -8,9 +8,9 @@ import java.util.UUID;
 
 /**
  *
- * Provide interface for assign permissions created by user
- * A permission is consist of role ,action and resource specify
- * what type of operation this role can perform in the given resource.
+ * Provide interface for assign permissions created by tenantUser
+ * A permission is consist of tenantRole ,action and resource specify
+ * what type of operation this tenantRole can perform in the given resource.
  *
  *
  */

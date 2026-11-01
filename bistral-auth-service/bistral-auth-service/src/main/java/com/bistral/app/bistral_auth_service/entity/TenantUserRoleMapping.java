@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Represent A mapping between {@link Users} user  and {@link Roles} role,
- * mean a role of <code>Bistro</code> assigned to user
+ * Represent A mapping between {@link TenantUser} tenantUser  and {@link TenantRole} tenantRole,
+ * mean a tenantRole of <code>Bistro</code> assigned to tenantUser
  * <note>
- *     Each user must have assign one role only once , but user can have
+ *     Each tenantUser must have assign one tenantRole only once , but tenantUser can have
  *     multiple roles in one or different bistros.
  * </note>
  * <p>
@@ -21,7 +21,7 @@ import java.util.UUID;
  * <p>
  *     <code>UserId</code>
  *     <ul>
- *         <li>Represent user whom role is assigned</li>
+ *         <li>Represent tenantUser whom tenantRole is assigned</li>
  *     </ul>
  * </p>
  * </p>
@@ -45,7 +45,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UserRoleMapping {
+public class TenantUserRoleMapping {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -54,11 +54,11 @@ public class UserRoleMapping {
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Roles role;
+    private TenantRole tenantRole;
 
     @ManyToOne()
     @JoinColumn(name = "user_id" , nullable = false)
-    private Users user;
+    private TenantUser tenantUser;
 
     @Column(name = "bistro_id", nullable = false)
     private UUID bistroId;
@@ -68,7 +68,7 @@ public class UserRoleMapping {
 
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
-    private Users createdBy;
+    private TenantUser createdBy;
 
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
@@ -80,6 +80,6 @@ public class UserRoleMapping {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "updated_by", nullable = false)
-    private Users updated_by;
+    private TenantUser updated_by;
 
 }

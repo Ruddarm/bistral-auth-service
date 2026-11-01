@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * API Endpoint for user crud operations.
+ * API Endpoint for tenantUser crud operations.
  *
  */
 @AllArgsConstructor
@@ -35,7 +35,7 @@ public class UserCrudController {
                         .data(
                                 userMapper.toUserResponseDto(userCrudService.getUserById(userId))
                         )
-                        .message("user fetch success fully")
+                        .message("tenantUser fetch success fully")
                         .build());
     }
 

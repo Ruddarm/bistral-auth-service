@@ -1,7 +1,7 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -96,23 +96,22 @@ public class JwtServiceImpl implements JwtService {
     }
 
     /**
-     * Generates a JWT access token for the given user.
+     * Generates a JWT access token for the given tenantUser.
      *
-     * Includes user-specific claims such as username and user type,
+     * Includes tenantUser-specific claims such as username and tenantUser type,
      * and signs the token using the RSA private key.
      *
-     * @param user authenticated user entity
+     * @param tenantUser authenticated tenantUser entity
      * @return signed JWT access token
      */
     @Override
-    public String getAccessToken(Users user, LoginContext loginContext) throws Exception {
+    public String getAccessToken(TenantUser tenantUser, LoginContext loginContext) throws Exception {
         Objects.requireNonNull(loginContext,"login Context Cant not be null");
         return
                 Jwts
                         .builder()
-                        .subject(user.getUserId().toString())
-                        .claim("userName", user.getUsername())
-                        .claim("userType", user.getUserTypeEnum())
+                        .subject(tenantUser.getUserId().toString())
+                        .claim("userName", tenantUser.getUsername())
                         .claim("bistroId", Optional.ofNullable(loginContext
                                 .getBistroId())
                                 .map(UUID::toString)
@@ -133,27 +132,26 @@ public class JwtServiceImpl implements JwtService {
 
 
     /**
-     * Generates a JWT refresh token for the given user.
+     * Generates a JWT refresh token for the given tenantUser.
      *
-     * Contains minimal user claims and is signed using the RSA private key.
+     * Contains minimal tenantUser claims and is signed using the RSA private key.
      *
-     * @param user authenticated user entity
+     * @param tenantUser authenticated tenantUser entity
      * @return signed JWT refresh token
      */
     @Override
-    public String getRefreshToken(Users user) throws Exception {
+    public String getRefreshToken(TenantUser tenantUser) throws Exception {
         return Jwts
                 .builder()
-                .subject(user.getUserId().toString())
-                .claim("userName", user.getUsername())
-                .claim("userType", user.getUserTypeEnum())
+                .subject(tenantUser.getUserId().toString())
+                .claim("userName", tenantUser.getUsername())
                 .signWith(this.privateKey)
                 .compact();
 
     }
 
     @Override
-    public boolean isTokenValid(String token, Users users) {
+    public boolean isTokenValid(String token, TenantUser tenantUser) {
         return false;
     }
 

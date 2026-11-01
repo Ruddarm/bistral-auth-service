@@ -36,30 +36,29 @@ public class RolePermissionCrudServiceImpl implements RolePermissionCrudService 
     @Override
     public RoleResponseDto assignPermissionToRole(UUID roleId, List<RolePermissionRequestDto> rolePermissionRequests) {
 
-        Roles roles = roleCrudService
-                .getRoleByIdAndBistroId(roleId);
-        Users createdBy = Users.builder().userId(UserContextHolder
-                .getAuthContext().getUserId()).build();
-        rolePermissionRepository.deleteByRoleId(roleId);
-        List<RolePermission> permissionEntities
-                = rolePermissionRequests
-                .stream()
-                .filter(RolePermissionRequestDto::getIsAllowed).map(
-                        (req) ->
-                                RolePermission.
-                                        builder()
-                                        .role(roles)
-                                        .resource(Resources.builder().resourceId(req.getResourceId()).build())
-                                        .actions(Actions.builder().actionId(req.getActionId()).build())
-                                        .createdBy(createdBy)
-                                        .build()
-                ).toList();
-        rolePermissionRepository
-                .saveAll(permissionEntities);
-        return
-                roleMapper.toRoleResponseWithPermission(
-                        roleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)
-                );
+//        TenantRole tenantRole = roleCrudService
+//                .getRoleByIdAndBistroId(roleId);
+//        TenantUser createdBy = TenantUser.builder().userId(UserContextHolder
+//                .getAuthContext().getUserId()).build();
+//        rolePermissionRepository.deleteByRoleId(roleId);
+//        List<TenantRolePermission> permissionEntities
+//                = rolePermissionRequests
+//                .stream()
+//                .filter(RolePermissionRequestDto::getIsAllowed).map(
+//                        (req) ->
+//                                TenantRolePermission.
+//                                        builder()
+//                                        .tenantRole(tenantRole)
+//                                        .createdBy(createdBy)
+//                                        .build()
+//                ).toList();
+//        rolePermissionRepository
+//                .saveAll(permissionEntities);
+//        return
+//                roleMapper.toRoleResponseWithPermission(
+//                        roleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)
+//                );
+        return null;
     }
 
 }

@@ -27,10 +27,10 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (request.getRequestURI().equals("/login") || request.getRequestURI().equals("/signup"))
             return HandlerInterceptor.super.preHandle(request, response, handler);
-        String userId = request.getHeader("X-User-Id");
+        String userId = request.getHeader("X-TenantUser-Id");
         String bistroId = request.getHeader("X-Bistro-Id");
         String branchId = request.getHeader("X-Branch-Id");
-        String roleId = request.getHeader("X-Role-Id");
+        String roleId = request.getHeader("X-TenantRole-Id");
         Set<String> permissions = new ObjectMapper()
                 .readValue(Base64.getDecoder().decode(request.getHeader("X-Permissions")),
                         new TypeReference<Set<String>>() {

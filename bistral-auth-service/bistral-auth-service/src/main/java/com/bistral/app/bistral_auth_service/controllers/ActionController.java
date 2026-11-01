@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/actions")
+@RequestMapping("/action")
 public class ActionController {
 
     private final ActionCrudService actionCrudService;

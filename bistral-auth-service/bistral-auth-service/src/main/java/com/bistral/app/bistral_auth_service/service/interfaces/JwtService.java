@@ -1,7 +1,7 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
 import com.bistral.app.bistral_auth_service.dtos.LoginContext;
-import com.bistral.app.bistral_auth_service.entity.Users;
+import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import io.jsonwebtoken.Claims;
 
 import java.util.List;
@@ -18,26 +18,26 @@ public interface JwtService {
 
 
     /**
-     * Generates a short-lived access token for the given user.
+     * Generates a short-lived access token for the given tenantUser.
      *
-     * @param user the authenticated user
+     * @param tenantUser the authenticated tenantUser
      * @return JWT access token
      */
-    public String getAccessToken(Users user, LoginContext loginContext) throws Exception;
+    public String getAccessToken(TenantUser tenantUser, LoginContext loginContext) throws Exception;
 
     /**
-     * Generates a long-lived refresh token for the given user.
+     * Generates a long-lived refresh token for the given tenantUser.
      *
-     * @param user the authenticated user
+     * @param tenantUser the authenticated tenantUser
      * @return JWT refresh token
      */
-    public String getRefreshToken(Users user) throws Exception;
+    public String getRefreshToken(TenantUser tenantUser) throws Exception;
 
     /**
      *
      *
      */
-    public  boolean isTokenValid(String token , Users users);
+    public  boolean isTokenValid(String token , TenantUser tenantUser);
 
     /**
      *
