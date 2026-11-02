@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class RoleResponseDto {
+public class TenantRoleResponseDto {
 
     private UUID userRoleId;
     private String roleName;

@@ -21,7 +21,7 @@ import java.util.UUID;
  * </p>
  */
 @Repository
-public interface UserRepository extends JpaRepository<TenantUser, UUID> {
+public interface TenantUserRepository extends JpaRepository<TenantUser, UUID> {
 
     /**
      * Find Active tenantUser by their  userName

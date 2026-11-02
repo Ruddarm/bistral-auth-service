@@ -9,7 +9,7 @@ import com.bistral.app.bistral_auth_service.dtos.UserLoginRequest;
 import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
-import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
+import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserRoleMappingCrudServiceImpl userRoleMappingCrudService;
-    private final UserCrudService userCrudService;
+    private final TenantUserCrudService tenantUserCrudService;
 
     /**
      * Authenticates tenantUser credentials and returns JWT tokens.
@@ -45,11 +45,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public AuthResponse authenticate(UserLoginRequest loginRequest) throws Exception {
-        log.error("authentication start");
-        log.info("authentication start");
-        log.warn("authentication start");
-        log.debug("authentication start");
-        log.trace("authentication start");
+        
         TenantUser tenantUser = (TenantUser) authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
         return
@@ -77,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
                 .branchId(authContext.getBranchId())
                 .roleId(authContext.getRoleId())
                 .build();
-        TenantUser tenantUser = userCrudService.getUserById(authContext.getUserId());
+        TenantUser tenantUser = tenantUserCrudService.getTenantUserByUserId(authContext.getUserId());
         return AuthResponse
                 .builder()
                 .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, loginContext))
@@ -90,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse switchLoginContext(LoginContext loginContext) throws Exception {
 
-        TenantUser tenantUser = userCrudService.getUserById(UserContextHolder.getAuthContext().getUserId());
+        TenantUser tenantUser = tenantUserCrudService.getTenantUserByUserId(UserContextHolder.getAuthContext().getUserId());
         loginContext.setPermission(
                 userRoleMappingCrudService.getListOfPermissionForUser(UserContextHolder.getAuthContext().getUserId(),
                         loginContext.getBistroId(), loginContext.getBranchId(),

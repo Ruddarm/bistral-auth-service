@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.management.relation.Role;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,5 +15,5 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserRoleMappingResponseDto {
 
-    Map<UUID, Map<UUID, List<RoleResponseDto>>> roleAssignmentDtoMap;
+    Map<UUID, Map<UUID, List<TenantRoleResponseDto>>> roleAssignmentDtoMap;
 }

@@ -1,8 +1,8 @@
 package com.bistral.app.bistral_auth_service.mapper;
 
 import com.bistral.app.bistral_auth_service.dtos.RolePermissionResponseDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleRequestDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleResponseDto;
 import com.bistral.app.bistral_auth_service.entity.TenantRole;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
 import org.mapstruct.Mapper;
@@ -15,17 +15,17 @@ import java.util.UUID;
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoleMapper {
 
-    RoleResponseDto toRoleResponse(TenantRole tenantRole);
+    TenantRoleResponseDto toRoleResponse(TenantRole tenantRole);
 
 
-    TenantRole toRoleEntity(RoleRequestDto roleRequestDto);
+    TenantRole toRoleEntity(TenantRoleRequestDto tenantRoleRequestDto);
 
 
-    default RoleResponseDto toRoleResponseWithPermission(List<RolePermissionProjection> rolePermissionProjection) {
+    default TenantRoleResponseDto toRoleResponseWithPermission(List<RolePermissionProjection> rolePermissionProjection) {
         if (rolePermissionProjection == null || rolePermissionProjection.isEmpty()) return null;
         UUID roleId = rolePermissionProjection.get(0).getRoleId();
         String roleName = rolePermissionProjection.get(0).getRoleName();
-        return RoleResponseDto
+        return TenantRoleResponseDto
                 .builder()
                 .userRoleId(roleId)
                 .roleName(roleName)

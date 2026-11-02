@@ -1,13 +1,9 @@
 package com.bistral.app.bistral_auth_service.service.implementaions;
 
-import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.*;
-import com.bistral.app.bistral_auth_service.entity.TenantRole;
-import com.bistral.app.bistral_auth_service.entity.TenantUser;
-import com.bistral.app.bistral_auth_service.entity.TenantUserRoleMapping;
 import com.bistral.app.bistral_auth_service.openfeignclients.BistroFeignClient;
-import com.bistral.app.bistral_auth_service.repository.RoleRepository;
-import com.bistral.app.bistral_auth_service.repository.UserRepository;
+import com.bistral.app.bistral_auth_service.repository.TenantRoleRepository;
+import com.bistral.app.bistral_auth_service.repository.TenantUserRepository;
 import com.bistral.app.bistral_auth_service.repository.UserRoleMappingRepository;
 import com.bistral.app.bistral_auth_service.service.interfaces.RoleUserMappingCrudService;
 import lombok.AllArgsConstructor;
@@ -15,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,8 +18,8 @@ import java.util.stream.Collectors;
 public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudService {
 
     private final UserRoleMappingRepository userRoleMappingRepository;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final TenantUserRepository userRepository;
+    private final TenantRoleRepository tenantRoleRepository;
     private final BistroFeignClient bistroFeignClient;
 
     @Override
@@ -53,7 +48,7 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
 //        List<TenantUserRoleMapping> roleMappingEntities =
 //                userRoleMappingRepository.findRolesOfUserByUserId(UserContextHolder
 //                        .getAuthContext().getUserId());
-//        Map<UUID, Map<UUID, List<RoleResponseDto>>> roleMap = new HashMap<>();
+//        Map<UUID, Map<UUID, List<TenantRoleResponseDto>>> roleMap = new HashMap<>();
 //        Set<UUID> bistroIds = new HashSet<>();
 //        Set<UUID> branchIds = new HashSet<>();
 //        roleMappingEntities.forEach(roleMapping -> {
@@ -88,7 +83,7 @@ public class UserRoleMappingCrudServiceImpl implements RoleUserMappingCrudServic
 //                                branchContextDto.setRoles(new ArrayList<>());
 //                            }
 //                            branchContextDto.getRoles()
-//                                    .add(RoleResponseDto
+//                                    .add(TenantRoleResponseDto
 //                                            .builder()
 //                                            .userRoleId(roleMapping.getTenantRole().getUserRoleId())
 //                                            .roleName(roleMapping.getTenantRole().getRoleName())

@@ -2,12 +2,12 @@ package com.bistral.app.bistral_auth_service.dtos;
 
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.UUID;
 
 /**
  * Api Contract object represent sign up field for <code>userEntity</code>
@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
  */
 @Data
 @Builder
-public class CreateUserDto {
+public class CreateTenantUserDto {
 
     @NotNull
     @Length(
@@ -46,5 +46,8 @@ public class CreateUserDto {
             message = "userEmail should have length minimum 4 and maximum 100"
     )
     private String password;
+    
+    @NotNull
+    private UUID tenantId;
 
 }

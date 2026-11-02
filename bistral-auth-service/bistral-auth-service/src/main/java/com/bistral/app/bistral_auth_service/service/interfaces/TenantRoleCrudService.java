@@ -3,8 +3,8 @@ package com.bistral.app.bistral_auth_service.service.interfaces;
 import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.PageResponse;
 import com.bistral.app.bistral_auth_service.dtos.RoleFilterRequest;
-import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleRequestDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleResponseDto;
 import com.bistral.app.bistral_auth_service.entity.TenantRole;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.projection.RolePermissionProjection;
@@ -15,15 +15,15 @@ import java.util.UUID;
 /**
  * Provide interface for curd operation on {@link TenantRole}
  */
-public interface RoleCrudService {
+public interface TenantRoleCrudService {
 
     /**
-     * Create {@link  TenantRole} for a given bistro id in {@link  RoleRequestDto}
-     * @param roleRequestDto represent high level abstraction of {@link  RoleRequestDto}
-     * @return {@link RoleResponseDto} Only required field from {@link TenantRole}
+     * Create {@link  TenantRole} for a given bistro id in {@link  TenantRoleRequestDto}
+     * @param tenantRoleRequestDto represent high level abstraction of {@link  TenantRoleRequestDto}
+     * @return {@link TenantRoleResponseDto} Only required field from {@link TenantRole}
      */
     @HasPermission("ROLE:CREATE")
-    RoleResponseDto createRole(RoleRequestDto roleRequestDto) throws UserNotFoundException;
+    TenantRoleResponseDto createRole(TenantRoleRequestDto tenantRoleRequestDto) throws UserNotFoundException;
 
     /**
      * Get tenantRole by tenantRole id of bistro , but <code>tenantUser</code> have right  to access tenantRole.
@@ -51,7 +51,7 @@ public interface RoleCrudService {
      * @return paginated list of roles matching the filter criteria
      */
     @HasPermission("ROLE:VIEW")
-    PageResponse<RoleResponseDto> getListOfRoles(RoleFilterRequest filterRequest , Integer page , Integer size);
+    PageResponse<TenantRoleResponseDto> getListOfRoles(RoleFilterRequest filterRequest , Integer page , Integer size);
 
 
     /**

@@ -4,7 +4,7 @@
 //import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 //import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
 //import com.bistral.app.bistral_auth_service.service.interfaces.JwtService;
-//import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
+//import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudService;
 //import io.jsonwebtoken.ExpiredJwtException;
 //import jakarta.servlet.FilterChain;
 //import jakarta.servlet.ServletException;
@@ -29,7 +29,7 @@
 //
 //
 //    private final JwtService jwtService;
-//    private final UserCrudService userCrudService;
+//    private final TenantUserCrudService userCrudService;
 //
 //
 //    @Override
