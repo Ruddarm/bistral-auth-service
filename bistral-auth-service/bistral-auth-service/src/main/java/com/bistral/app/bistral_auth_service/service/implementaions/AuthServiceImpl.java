@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     private static final Logger log =
             LoggerFactory.getLogger(AuthServiceImpl.class);
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+//    private final AuthenticationManager authenticationManager;
     private final UserRoleMappingCrudServiceImpl userRoleMappingCrudService;
     private final TenantUserCrudService tenantUserCrudService;
 
@@ -46,15 +46,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse authenticate(UserLoginRequest loginRequest) throws Exception {
         
-        TenantUser tenantUser = (TenantUser) authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
-        return
-                AuthResponse.builder()
-                        .accessToken(jwtService.getAccessToken(tenantUser, new LoginContext()))
-                        .refreshToken(jwtService.getRefreshToken(tenantUser))
-                        .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, null))
-                        .expireIn(10000L)
-                        .build();
+//        TenantUser tenantUser = (TenantUser) authenticationManager
+//                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword())).getPrincipal();
+//        return
+//                AuthResponse.builder()
+//                        .accessToken(jwtService.getAccessToken(tenantUser, new LoginContext()))
+//                        .refreshToken(jwtService.getRefreshToken(tenantUser))
+//                        .userContext(UserLoginContextDto.buildUserLoginContext(tenantUser, null))
+//                        .expireIn(10000L)
+//                        .build();
+        return null;
     }
 
     /**

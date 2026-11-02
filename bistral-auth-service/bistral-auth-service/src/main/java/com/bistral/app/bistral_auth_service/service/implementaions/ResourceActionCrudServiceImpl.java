@@ -22,6 +22,6 @@ public class ResourceActionCrudServiceImpl implements ResourceActionsMappingCrud
      */
     @Override
     public List<ResourceActionMapping> getAllNonSystemSpecificResourceActionMappings() {
-        return resourceActionsMappingRepository.findAllWhereDeletedAtIsNullAndIsSystemSpecificIsFalse();
+        return resourceActionsMappingRepository.findAllByDeletedAtIsNullAndIsSystemSpecificIsFalse();
     }
 }

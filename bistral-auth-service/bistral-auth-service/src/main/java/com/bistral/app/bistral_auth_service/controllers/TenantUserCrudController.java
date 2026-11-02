@@ -19,9 +19,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/users")
-public class UserCrudController {
+public class TenantUserCrudController {
 
-    private final TenantUserCrudService userCrudService;
+    private final TenantUserCrudService tenantUserCrudService;
     private final UserMapper userMapper;
 
 
@@ -31,7 +31,7 @@ public class UserCrudController {
                 .ok(ApiResponse.<TenantUserResponseDto>
                                 builder()
                         .data(
-                                userMapper.toUserResponseDto(userCrudService.getUserById(userId))
+                                userMapper.toUserResponseDto(tenantUserCrudService.getTenantUserByUserId(userId))
                         )
                         .message("tenantUser fetch success fully")
                         .build());

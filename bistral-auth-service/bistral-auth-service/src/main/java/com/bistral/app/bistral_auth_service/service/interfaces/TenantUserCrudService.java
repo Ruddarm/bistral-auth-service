@@ -1,6 +1,8 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
+import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.CreateTenantUserDto;
+import com.bistral.app.bistral_auth_service.dtos.OnboardTenantUserDto;
 import com.bistral.app.bistral_auth_service.dtos.TenantUserResponseDto;
 import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
@@ -12,7 +14,7 @@ import java.util.UUID;
  * provide interface for crud service of global {@link  TenantUser}
  *
  */
-public interface TenantUserCrudService extends UserDetailsService {
+public interface TenantUserCrudService {
 
     /**
      * Create tenantUser in system.
@@ -21,6 +23,8 @@ public interface TenantUserCrudService extends UserDetailsService {
      * @return {@link  TenantUserResponseDto} represent abstraction of {@link TenantUser}
      */
     public TenantUserResponseDto createTenantUser(CreateTenantUserDto userSignUpDto);
+
+    TenantUserResponseDto onboardTenantFirstUser(OnboardTenantUserDto onboardTenantUserDto);
 
     /**
      * Find and Return tenantUser of a given id

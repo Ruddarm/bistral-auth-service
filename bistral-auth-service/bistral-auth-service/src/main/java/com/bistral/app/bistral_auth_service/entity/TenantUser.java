@@ -1,5 +1,6 @@
 package com.bistral.app.bistral_auth_service.entity;
 
+import com.bistral.app.bistral_auth_service.enums.UserStatus;
 import com.bistral.app.bistral_auth_service.enums.UserType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,37 +46,42 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TenantUser {
-    
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID userId;
-    
+
     @Column(name = "user_name", nullable = false)
     private String username;
-    
+
     @Column(name = "user_email", nullable = false)
     private String userEmail;
-    
+
     @Column(name = "password_hash", nullable = false)
     private String userHashPasswd;
-    
+
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
-    
+
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
+    @Builder.Default
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus = UserStatus.INVITED;
+
     @Builder.Default
     @Column(name = "is_active", nullable = false, columnDefinition = "DEFAULT 1")
     private Boolean isActive = true;
-    
+
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-    
+
     @Column(nullable = false)
     private UUID tenantId;
-    
-    
+
+
 }

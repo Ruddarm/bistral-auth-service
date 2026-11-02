@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ResourceActionsMappingRepository extends JpaRepository<ResourceActionMapping, UUID> {
-    
-    List<ResourceActionMapping> findAllWhereDeletedAtIsNullAndIsSystemSpecificIsFalse();
+
+    List<ResourceActionMapping> findAllByDeletedAtIsNullAndIsSystemSpecificIsFalse();
 }

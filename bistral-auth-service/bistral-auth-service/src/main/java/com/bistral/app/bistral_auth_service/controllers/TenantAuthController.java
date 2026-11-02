@@ -39,7 +39,7 @@ public class TenantAuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<TenantUserResponseDto>> signUp(@Valid @RequestBody CreateTenantUserDto userSignUpDto) {
-        TenantUserResponseDto tenantUserResponseDto = userCrudService.createUser(userSignUpDto);
+        TenantUserResponseDto tenantUserResponseDto = tenantUserCrudService.createTenantUser(userSignUpDto);
         return ResponseEntity.created(URI.create("/users/" + tenantUserResponseDto.getUserId()))
                 .body(ApiResponse.<TenantUserResponseDto>builder()
                 .message("Sign up Success fully")

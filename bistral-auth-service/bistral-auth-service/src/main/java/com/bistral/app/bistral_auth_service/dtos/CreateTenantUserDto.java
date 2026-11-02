@@ -7,7 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.UUID;
+
+import java.util.UUID;
 
 /**
  * Api Contract object represent sign up field for <code>userEntity</code>
@@ -38,14 +39,6 @@ public class CreateTenantUserDto {
             message = "userEmail should have length minimum 4 and maximum 100"
     )
     private String userEmail;
-    @NotNull
-    @NotBlank
-    @Length(
-            min = 4,
-            max = 100,
-            message = "userEmail should have length minimum 4 and maximum 100"
-    )
-    private String password;
     
     @NotNull
     private UUID tenantId;

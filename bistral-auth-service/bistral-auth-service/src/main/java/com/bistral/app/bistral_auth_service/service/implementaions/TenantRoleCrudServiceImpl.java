@@ -29,13 +29,13 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class TenantRoleCrudServiceImpl implements TenantRoleCrudService {
-    
+
     private final TenantRoleRepository tenantRoleRepository;
     private final RoleMapper roleMapper;
     private final ResourceActionsMappingCrudService resourceActionsMappingCrudService;
     private TenantUserCrudServiceImpl tenantUserCrudService;
-    
-    
+
+
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public TenantRoleResponseDto createRole(TenantRoleRequestDto tenantRoleRequestDto) throws UserNotFoundException {
@@ -64,8 +64,9 @@ public class TenantRoleCrudServiceImpl implements TenantRoleCrudService {
         return
                 roleMapper.toRoleResponse(tenantRoleRepository.save(tenantRole));
     }
-    
-    @HasPermission("Role:Create_root_role")
+
+    @Transactional(rollbackFor = Exception.class)
+    @HasPermission("Tenant:Onboard")
     public TenantRole createRootRole(UUID tenantId, UUID bistroId, TenantUser tenantUser) {
         TenantRole tenantRole = TenantRole
                 .builder()
@@ -90,9 +91,8 @@ public class TenantRoleCrudServiceImpl implements TenantRoleCrudService {
         tenantRole = tenantRoleRepository.save(tenantRole);
         return tenantRole;
     }
-    
-    
-    
+
+
     @Override
     public TenantRole getRoleByIdAndBistroId(UUID roleId) {
         ValidationUtil.notNull(roleId, "Role Id Can't be null");
@@ -102,15 +102,15 @@ public class TenantRoleCrudServiceImpl implements TenantRoleCrudService {
                         UserContextHolder.getAuthContext().getBistroId()
                 ).orElseThrow(() -> new ResourceNotFoundExceptions("Role Not found for given Id", roleId.toString(), "tenantRole"))
                 ;
-        
+
     }
-    
+
     @Override
     public PageResponse<TenantRoleResponseDto> getListOfRoles(RoleFilterRequest filterRequest, Integer page, Integer size) {
         return null;
     }
-    
-    
+
+
     @Override
     public List<RolePermissionProjection> getRoleByRoleIdBistroIdWithPermission(UUID roleId) {
 //        return tenantRoleRepository
@@ -118,5 +118,5 @@ public class TenantRoleCrudServiceImpl implements TenantRoleCrudService {
 //                        .getAuthContext().getBistroId());
         return null;
     }
-    
+
 }

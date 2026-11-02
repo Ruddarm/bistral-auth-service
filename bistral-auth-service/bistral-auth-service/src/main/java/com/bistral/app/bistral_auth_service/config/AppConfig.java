@@ -18,18 +18,18 @@ public class AppConfig {
     public BCryptPasswordEncoder getBCryptPasswordEncoder(){
         return  new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public DaoAuthenticationProvider getAuthenticationProvider(TenantUserCrudService userCrudService){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userCrudService);
-        daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
-        return  daoAuthenticationProvider;
-    }
-
-    @Bean
-    public AuthenticationManager getAuthenticationManager(TenantUserCrudService userCrudService){
-        return  new ProviderManager(List.of(getAuthenticationProvider(userCrudService)));
-    }
+//
+////    @Bean
+////    public DaoAuthenticationProvider getAuthenticationProvider(TenantUserCrudService userCrudService){
+////        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userCrudService);
+////        daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
+////        return  daoAuthenticationProvider;
+////    }
+//
+//    @Bean
+//    public AuthenticationManager getAuthenticationManager(TenantUserCrudService userCrudService){
+//        return  new ProviderManager(List.of(getAuthenticationProvider(userCrudService)));
+//    }
 
     
 
