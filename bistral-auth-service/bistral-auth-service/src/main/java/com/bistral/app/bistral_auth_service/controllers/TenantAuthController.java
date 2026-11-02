@@ -1,19 +1,13 @@
 package com.bistral.app.bistral_auth_service.controllers;
 
 
-import com.bistral.app.bistral_auth_service.contexts.AuthContext;
-import com.bistral.app.bistral_auth_service.contexts.UserContextHolder;
 import com.bistral.app.bistral_auth_service.dtos.*;
 import com.bistral.app.bistral_auth_service.service.interfaces.AuthService;
-import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
+import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Value;
-import lombok.extern.java.Log;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +16,9 @@ import java.net.URI;
 @AllArgsConstructor
 @RestController
 @RequestMapping("")
-public class AuthController {
+public class TenantAuthController {
 
-    private final UserCrudService userCrudService;
+    private final TenantUserCrudService tenantUserCrudService;
     private final AuthService authService;
 
     @PostMapping("/login")
@@ -44,12 +38,12 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponse<UserResponseDto>> signUp(@Valid @RequestBody CreateUserDto userSignUpDto) {
-        UserResponseDto userResponseDto = userCrudService.createUser(userSignUpDto);
-        return ResponseEntity.created(URI.create("/users/" + userResponseDto.getUserId()))
-                .body(ApiResponse.<UserResponseDto>builder()
+    public ResponseEntity<ApiResponse<TenantUserResponseDto>> signUp(@Valid @RequestBody CreateTenantUserDto userSignUpDto) {
+        TenantUserResponseDto tenantUserResponseDto = userCrudService.createUser(userSignUpDto);
+        return ResponseEntity.created(URI.create("/users/" + tenantUserResponseDto.getUserId()))
+                .body(ApiResponse.<TenantUserResponseDto>builder()
                 .message("Sign up Success fully")
-                .data(userResponseDto)
+                .data(tenantUserResponseDto)
                 .build());
     }
 

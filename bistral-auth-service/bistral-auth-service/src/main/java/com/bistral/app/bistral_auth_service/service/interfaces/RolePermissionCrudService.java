@@ -1,7 +1,7 @@
 package com.bistral.app.bistral_auth_service.service.interfaces;
 
 import com.bistral.app.bistral_auth_service.dtos.RolePermissionRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleResponseDto;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,5 +22,5 @@ public interface RolePermissionCrudService {
      * @param rolePermissionRequests
      * @return
      */
-    RoleResponseDto assignPermissionToRole(UUID roleId, List<RolePermissionRequestDto> rolePermissionRequests);
+    TenantRoleResponseDto assignPermissionToRole(UUID roleId, List<RolePermissionRequestDto> rolePermissionRequests);
 }

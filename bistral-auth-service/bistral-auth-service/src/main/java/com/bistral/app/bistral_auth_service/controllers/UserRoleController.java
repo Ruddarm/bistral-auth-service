@@ -1,13 +1,12 @@
 package com.bistral.app.bistral_auth_service.controllers;
 
 
-import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.ApiResponse;
-import com.bistral.app.bistral_auth_service.dtos.RoleRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleRequestDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleResponseDto;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.mapper.RoleMapper;
-import com.bistral.app.bistral_auth_service.service.interfaces.RoleCrudService;
+import com.bistral.app.bistral_auth_service.service.interfaces.TenantRoleCrudService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +18,29 @@ import java.util.UUID;
 @RequestMapping("/roles")
 public class UserRoleController {
 
-    private final RoleCrudService roleCrudService;
+    private final TenantRoleCrudService tenantRoleCrudService;
     private final RoleMapper roleMapper;
 
     @PostMapping("")
-    public ApiResponse<RoleResponseDto> createRole(@Valid @RequestBody RoleRequestDto roleRequestDto) throws UserNotFoundException {
-        return ApiResponse.<RoleResponseDto>builder()
+    public ApiResponse<TenantRoleResponseDto> createRole(@Valid @RequestBody TenantRoleRequestDto tenantRoleRequestDto) throws UserNotFoundException {
+        return ApiResponse.<TenantRoleResponseDto>builder()
                 .isError(false)
                 .message("TenantRole Created Successfully")
-                .data(roleCrudService.createRole(roleRequestDto))
+                .data(tenantRoleCrudService.createRole(tenantRoleRequestDto))
                 .build();
     }
 
     @GetMapping("/{roleId}")
-    public ApiResponse<RoleResponseDto> getRoleById(@PathVariable UUID roleId) {
-        return ApiResponse.<RoleResponseDto>builder()
+    public ApiResponse<TenantRoleResponseDto> getRoleById(@PathVariable UUID roleId) {
+        return ApiResponse.<TenantRoleResponseDto>builder()
                 .data(roleMapper
-                        .toRoleResponseWithPermission(roleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)))
+                        .toRoleResponseWithPermission(tenantRoleCrudService.getRoleByRoleIdBistroIdWithPermission(roleId)))
                 .message("TenantRole found")
                 .build();
     }
 
     @GetMapping("/bistro/{bistroId}")
-    public ApiResponse<RoleResponseDto> getRoleByBistroId() {
+    public ApiResponse<TenantRoleResponseDto> getRoleByBistroId() {
         return null;
     }
 

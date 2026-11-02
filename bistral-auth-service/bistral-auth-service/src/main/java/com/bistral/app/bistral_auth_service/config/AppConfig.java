@@ -1,8 +1,7 @@
 package com.bistral.app.bistral_auth_service.config;
 
 
-import com.bistral.app.bistral_auth_service.service.interfaces.UserCrudService;
-import lombok.AllArgsConstructor;
+import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -21,14 +20,14 @@ public class AppConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider getAuthenticationProvider(UserCrudService userCrudService){
+    public DaoAuthenticationProvider getAuthenticationProvider(TenantUserCrudService userCrudService){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userCrudService);
         daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
         return  daoAuthenticationProvider;
     }
 
     @Bean
-    public AuthenticationManager getAuthenticationManager(UserCrudService userCrudService){
+    public AuthenticationManager getAuthenticationManager(TenantUserCrudService userCrudService){
         return  new ProviderManager(List.of(getAuthenticationProvider(userCrudService)));
     }
 

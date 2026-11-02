@@ -1,11 +1,15 @@
 package com.bistral.app.bistral_auth_service.entity;
 
 
+import com.bistral.app.bistral_auth_service.utility.ValidationUtil;
 import jakarta.persistence.*;
+import jakarta.validation.Validation;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,17 +25,10 @@ import java.util.UUID;
  * parentRole if it is not a root node.
  */
 @Entity
-@Table(name = "tenant_role",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "unique_user_role_name",
-                        columnNames = {"lower(role_name)", "bistro_id"}
-                )
-        }
-)
 @Getter
 @Setter
 @Builder
+@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
 public class TenantRole {
@@ -39,44 +36,65 @@ public class TenantRole {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "tenant_role_id")
     private UUID tenantRoleId;
-
+    
     @Column(name = "role_name", nullable = false)
     private String roleName;
-
+    
     @Column(name = "bistro_id", nullable = false)
     private UUID bistroId;
-
+    
     @Column(name = "tenant_id", nullable = false)
     private UUID tenantId;
-
-
+    
+    
     @Column(nullable = false)
     private boolean isRootRole = false;
-
-
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_role_id")
     private TenantRole parentRole;
-
+    
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
-
+    
     @JoinColumn(name = "created_by", nullable = false)
     @ManyToOne
     private TenantUser createdBy;
-
+    
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
+    
     @ManyToOne
     @JoinColumn(name = "updated_by")
     private TenantUser updatedBy;
-
-
-    @OneToMany(mappedBy = "tenantRole")
-    private List<TenantRolePermission> tenantRolePermissions;
-
-
+    
+    
+    @Builder.Default
+    @Getter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "tenantRole", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TenantRolePermission> tenantRolePermissions = new ArrayList<>();
+    
+    public void addTenantRolePermission(TenantRolePermission tenantRolePermission) {
+        ValidationUtil.notNull(tenantRolePermission, "tenantRolePermission");
+        if (tenantRolePermission.getTenantRole() != null) {
+            log.debug("tenantRolePermission is assigned to another Role : {}", tenantRolePermission.getTenantRole());
+        }
+        this.tenantRolePermissions.add(tenantRolePermission);
+        if (!tenantRolePermissions.contains(tenantRolePermission)) {
+            tenantRolePermissions.add(tenantRolePermission);
+            tenantRolePermission.setTenantRole(this);
+        }
+    }
+    
+    public void removeTenantRolePermission(TenantRolePermission tenantRolePermission) {
+        if (tenantRolePermissions.contains(tenantRolePermission)) {
+            tenantRolePermissions.remove(tenantRolePermission);
+            tenantRolePermission.setTenantRole(null);
+        }
+    }
+    
+    
 }
 

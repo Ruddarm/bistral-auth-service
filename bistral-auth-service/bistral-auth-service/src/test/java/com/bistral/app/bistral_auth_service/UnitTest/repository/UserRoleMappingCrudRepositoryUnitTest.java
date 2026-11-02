@@ -1,7 +1,7 @@
 //package com.bistral.app.bistral_auth_service.UnitTest.repository;
 //
 //
-//import com.bistral.app.bistral_auth_service.repository.RoleRepository;
+//import com.bistral.app.bistral_auth_service.repository.TenantRoleRepository;
 //import com.bistral.app.bistral_auth_service.repository.UserRoleMappingRepository;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@
 //    private UserRoleMappingRepository userRoleMappingRepository;
 //
 //    @Autowired
-//    private RoleRepository roleRepository;
+//    private TenantRoleRepository roleRepository;
 //
 //    @Test
 //    void contextLoads() {

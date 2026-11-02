@@ -3,11 +3,10 @@ package com.bistral.app.bistral_auth_service.controllers;
 
 import com.bistral.app.bistral_auth_service.dtos.ApiResponse;
 import com.bistral.app.bistral_auth_service.dtos.RolePermissionRequestDto;
-import com.bistral.app.bistral_auth_service.dtos.RoleResponseDto;
+import com.bistral.app.bistral_auth_service.dtos.TenantRoleResponseDto;
 import com.bistral.app.bistral_auth_service.service.interfaces.RolePermissionCrudService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +22,10 @@ public class RolePermissionController {
 
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<RoleResponseDto>> assignPermissionToRole(@PathVariable UUID roleId, @Valid @RequestBody List<RolePermissionRequestDto> rolePermissionRequestDtoList) {
+    public ResponseEntity<ApiResponse<TenantRoleResponseDto>> assignPermissionToRole(@PathVariable UUID roleId, @Valid @RequestBody List<RolePermissionRequestDto> rolePermissionRequestDtoList) {
         return ResponseEntity
                 .ok(
-                        ApiResponse.<RoleResponseDto>builder()
+                        ApiResponse.<TenantRoleResponseDto>builder()
                                 .message("Permission Assigned to TenantRole Success fully")
                                 .data(rolePermissionCrudService
                                         .assignPermissionToRole(roleId,rolePermissionRequestDtoList))

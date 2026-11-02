@@ -44,52 +44,38 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TenantUser implements UserDetails {
-
+public class TenantUser {
+    
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.UUID)
-    private  UUID userId;
-
+    private UUID userId;
+    
     @Column(name = "user_name", nullable = false)
-    private  String username;
-
+    private String username;
+    
     @Column(name = "user_email", nullable = false)
-    private  String userEmail;
-
+    private String userEmail;
+    
     @Column(name = "password_hash", nullable = false)
-    private  String userHashPasswd;
-
+    private String userHashPasswd;
+    
     @Column(name = "created_at", nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
-
+    
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
+    
     @Builder.Default
     @Column(name = "is_active", nullable = false, columnDefinition = "DEFAULT 1")
-    private  Boolean isActive = true;
-
+    private Boolean isActive = true;
+    
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
-
+    
     @Column(nullable = false)
     private UUID tenantId;
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-    @Override
-    public String getPassword() {
-        return this.userHashPasswd;
-    }
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-
+    
+    
 }

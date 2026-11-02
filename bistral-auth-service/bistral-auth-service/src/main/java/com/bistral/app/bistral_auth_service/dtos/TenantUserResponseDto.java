@@ -2,7 +2,6 @@ package com.bistral.app.bistral_auth_service.dtos;
 
 
 import com.bistral.app.bistral_auth_service.entity.TenantUser;
-import com.bistral.app.bistral_auth_service.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,11 +26,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class UserResponseDto {
+public class TenantUserResponseDto {
 
     private UUID userId;
     private String username;
     private String userEmail;
-    private UserType userTypeEnum;
-
+    private UUID tenantId;
 }
