@@ -16,5 +16,4 @@ public interface TenantOnboardingService {
 
     void tenantOnBoardSetup(TenantOnboardingSetUpDto tenantOnboardingSetUpDto) throws UserNotFoundException;
 
-    public void onBoardTenant(UUID tenantId);
 }

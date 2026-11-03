@@ -2,7 +2,7 @@
 //
 //
 //import com.bistral.app.bistral_auth_service.repository.TenantRoleRepository;
-//import com.bistral.app.bistral_auth_service.repository.UserRoleMappingRepository;
+//import com.bistral.app.bistral_auth_service.repository.TenantUserRoleMappingRepository;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -20,7 +20,7 @@
 //    }
 //
 //    @Autowired
-//    private UserRoleMappingRepository userRoleMappingRepository;
+//    private TenantUserRoleMappingRepository userRoleMappingRepository;
 //
 //    @Autowired
 //    private TenantRoleRepository roleRepository;

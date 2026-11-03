@@ -13,8 +13,6 @@ import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudSer
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 
@@ -33,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
             LoggerFactory.getLogger(AuthServiceImpl.class);
     private final JwtService jwtService;
 //    private final AuthenticationManager authenticationManager;
-    private final UserRoleMappingCrudServiceImpl userRoleMappingCrudService;
+    private final TenantUserRoleMappingCrudServiceImpl userRoleMappingCrudService;
     private final TenantUserCrudService tenantUserCrudService;
 
     /**

@@ -2,15 +2,13 @@ package com.bistral.app.bistral_auth_service.repository;
 
 import com.bistral.app.bistral_auth_service.entity.TenantUserRoleMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.UUID;
 
 
 @Repository
-public interface UserRoleMappingRepository extends JpaRepository<TenantUserRoleMapping, UUID> {
+public interface TenantUserRoleMappingRepository extends JpaRepository<TenantUserRoleMapping, UUID> {
 
 //    @Query("""
 //                SELECT userRole

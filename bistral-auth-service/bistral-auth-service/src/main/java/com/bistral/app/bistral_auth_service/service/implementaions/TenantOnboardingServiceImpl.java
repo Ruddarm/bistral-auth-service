@@ -4,6 +4,7 @@ import com.bistral.app.bistral_auth_service.annotation.HasPermission;
 import com.bistral.app.bistral_auth_service.dtos.OnboardTenantUserDto;
 import com.bistral.app.bistral_auth_service.dtos.TenantOnboardingSetUpDto;
 import com.bistral.app.bistral_auth_service.dtos.TenantUserResponseDto;
+import com.bistral.app.bistral_auth_service.entity.TenantRole;
 import com.bistral.app.bistral_auth_service.entity.TenantUser;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.service.interfaces.TenantOnboardingService;
@@ -43,16 +44,15 @@ public class TenantOnboardingServiceImpl implements TenantOnboardingService {
         TenantUser tenantUser = tenantUserCrudService.getTenantUserByUserId(
                 tenantOnboardingSetUpDto.getUserId()
         );
-        tenantRoleCrudService.createRootRole(
+
+        TenantRole rootRole = tenantRoleCrudService.createRootRole(
                 tenantOnboardingSetUpDto.getTenantId(),
                 tenantOnboardingSetUpDto.getBistroId(),
                 tenantUser
         );
+
+
     }
 
 
-    @Override
-    public void onBoardTenant(UUID tenantId) {
-
-    }
 }
