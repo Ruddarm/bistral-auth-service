@@ -15,5 +15,13 @@ public class ApiResponse<T> {
     String message;
     Boolean isError = false;
     T data;
-    Map<String,Object> meta = new HashMap<>();
+    Map<String, Object> meta = new HashMap<>();
+
+    public static ApiResponse<Void> ok(String message) {
+        return ApiResponse.<Void>builder()
+                .isError(false)
+                .data(null)
+                .message(message)
+                .build();
+    }
 }
