@@ -10,9 +10,11 @@ import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
 import com.bistral.app.bistral_auth_service.service.interfaces.TenantOnboardingService;
 import com.bistral.app.bistral_auth_service.service.interfaces.TenantUserCrudService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 @AllArgsConstructor
 public class TenantOnboardingServiceImpl implements TenantOnboardingService {
 
@@ -41,6 +43,7 @@ public class TenantOnboardingServiceImpl implements TenantOnboardingService {
      */
     @Override
     public void tenantOnBoardSetup(TenantOnboardingSetUpDto tenantOnboardingSetUpDto) throws UserNotFoundException {
+
         TenantUser tenantUser = tenantUserCrudService.getTenantUserByUserId(
                 tenantOnboardingSetUpDto.getUserId()
         );

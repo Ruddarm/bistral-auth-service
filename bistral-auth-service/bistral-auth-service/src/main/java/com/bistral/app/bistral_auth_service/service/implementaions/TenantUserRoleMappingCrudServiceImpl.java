@@ -28,19 +28,20 @@ public class TenantUserRoleMappingCrudServiceImpl implements RoleUserMappingCrud
         return Boolean.TRUE;
     }
 
-    public
-
     @Override
     public List<BistroContextDto> getRolesOfUser() {
-
-        return  null;
+        return List.of();
     }
 
     @Override
     public List<String> getListOfPermissionForUser(UUID userId, UUID bistroId, UUID branchId, UUID roleId) {
-
-        return null;
+        return List.of();
     }
+
+
+
+
+
 
 
 }

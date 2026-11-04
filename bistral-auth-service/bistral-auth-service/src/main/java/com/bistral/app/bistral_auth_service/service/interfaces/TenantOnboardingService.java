@@ -5,6 +5,7 @@ import com.bistral.app.bistral_auth_service.dtos.OnboardTenantUserDto;
 import com.bistral.app.bistral_auth_service.dtos.TenantOnboardingSetUpDto;
 import com.bistral.app.bistral_auth_service.dtos.TenantUserResponseDto;
 import com.bistral.app.bistral_auth_service.exceptions.UserNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

@@ -12,12 +12,16 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity(name = "system_users")
 public class SystemUser  {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID userId;
 
     @Column(nullable = false)
     private String userName;
+
+    @Column(nullable = false)
+    private String passwordHash;
 
 
 }

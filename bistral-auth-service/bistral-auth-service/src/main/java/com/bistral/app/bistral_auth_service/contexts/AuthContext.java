@@ -14,7 +14,6 @@ import java.util.UUID;
 @Setter
 public class AuthContext {
 
-
     private UUID userId;
     private UUID bistroId;
     private UUID branchId;
